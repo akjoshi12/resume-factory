@@ -1,0 +1,270 @@
+<svg viewBox="0 0 1200 1400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4A5568" />
+    </marker>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#667EEA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764BA2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F093FB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5576C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4FACFE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00F2FE;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="40" font-size="32" font-weight="bold" text-anchor="middle" fill="#2D3748">
+    Resume Factory - System Architecture
+  </text>
+
+  <!-- User Layer -->
+  <g id="user-layer">
+    <rect x="450" y="80" width="300" height="80" rx="10" fill="url(#grad1)" filter="url(#shadow)"/>
+    <text x="600" y="115" font-size="20" font-weight="bold" text-anchor="middle" fill="white">👤 User</text>
+    <text x="600" y="140" font-size="14" text-anchor="middle" fill="white">Job Seeker / Applicant</text>
+  </g>
+
+  <!-- Arrow from User to Frontend -->
+  <line x1="600" y1="160" x2="600" y2="210" stroke="#4A5568" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="620" y="190" font-size="12" fill="#4A5568">Interacts</text>
+
+  <!-- Frontend Layer -->
+  <g id="frontend">
+    <rect x="50" y="220" width="1100" height="200" rx="10" fill="#EDF2F7" stroke="#4A5568" stroke-width="2" filter="url(#shadow)"/>
+    <text x="600" y="250" font-size="24" font-weight="bold" text-anchor="middle" fill="#2D3748">
+      🖥️ Frontend Layer (Streamlit)
+    </text>
+
+    <!-- Factory Page -->
+    <g id="factory-page">
+      <rect x="100" y="270" width="220" height="120" rx="8" fill="white" stroke="#667EEA" stroke-width="2"/>
+      <text x="210" y="295" font-size="16" font-weight="bold" text-anchor="middle" fill="#667EEA">Factory Page</text>
+      <text x="110" y="320" font-size="12" fill="#4A5568">• Job Details Input</text>
+      <text x="110" y="340" font-size="12" fill="#4A5568">• Resume Editor</text>
+      <text x="110" y="360" font-size="12" fill="#4A5568">• Cover Letter Editor</text>
+      <text x="110" y="380" font-size="12" fill="#4A5568">• PDF Preview</text>
+    </g>
+
+    <!-- Applications Page -->
+    <g id="applications-page">
+      <rect x="360" y="270" width="220" height="120" rx="8" fill="white" stroke="#F5576C" stroke-width="2"/>
+      <text x="470" y="295" font-size="16" font-weight="bold" text-anchor="middle" fill="#F5576C">Applications Page</text>
+      <text x="370" y="320" font-size="12" fill="#4A5568">• Application List</text>
+      <text x="370" y="340" font-size="12" fill="#4A5568">• Status Tracker</text>
+      <text x="370" y="360" font-size="12" fill="#4A5568">• Document Viewer</text>
+      <text x="370" y="380" font-size="12" fill="#4A5568">• Statistics Dashboard</text>
+    </g>
+
+    <!-- Session State -->
+    <g id="session-state">
+      <rect x="620" y="270" width="220" height="120" rx="8" fill="white" stroke="#00F2FE" stroke-width="2"/>
+      <text x="730" y="295" font-size="16" font-weight="bold" text-anchor="middle" fill="#00A8CC">Session State</text>
+      <text x="630" y="320" font-size="12" fill="#4A5568">• resume_draft</text>
+      <text x="630" y="340" font-size="12" fill="#4A5568">• cl_text</text>
+      <text x="630" y="360" font-size="12" fill="#4A5568">• generation_step</text>
+      <text x="630" y="380" font-size="12" fill="#4A5568">• company, position, jd</text>
+    </g>
+
+    <!-- PDF Display -->
+    <g id="pdf-display">
+      <rect x="880" y="270" width="220" height="120" rx="8" fill="white" stroke="#48BB78" stroke-width="2"/>
+      <text x="990" y="295" font-size="16" font-weight="bold" text-anchor="middle" fill="#48BB78">PDF Display</text>
+      <text x="890" y="320" font-size="12" fill="#4A5568">• Base64 Encoding</text>
+      <text x="890" y="340" font-size="12" fill="#4A5568">• iFrame Rendering</text>
+      <text x="890" y="360" font-size="12" fill="#4A5568">• Real-time Preview</text>
+    </g>
+  </g>
+
+  <!-- Arrow from Frontend to Backend -->
+  <line x1="600" y1="420" x2="600" y2="470" stroke="#4A5568" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="620" y="450" font-size="12" fill="#4A5568">API Calls</text>
+
+  <!-- Backend Layer -->
+  <g id="backend">
+    <rect x="50" y="480" width="1100" height="280" rx="10" fill="#F7FAFC" stroke="#4A5568" stroke-width="2" filter="url(#shadow)"/>
+    <text x="600" y="510" font-size="24" font-weight="bold" text-anchor="middle" fill="#2D3748">
+      ⚙️ Backend Layer (FastAPI)
+    </text>
+
+    <!-- API Endpoints -->
+    <g id="api-endpoints">
+      <rect x="100" y="530" width="450" height="200" rx="8" fill="white" stroke="#805AD5" stroke-width="2"/>
+      <text x="325" y="555" font-size="16" font-weight="bold" text-anchor="middle" fill="#805AD5">API Endpoints</text>
+      
+      <text x="110" y="580" font-size="13" font-weight="bold" fill="#2D3748">Resume:</text>
+      <text x="110" y="600" font-size="11" fill="#4A5568">POST /generate-resume</text>
+      <text x="110" y="618" font-size="11" fill="#4A5568">POST /save-resume</text>
+      <text x="110" y="636" font-size="11" fill="#4A5568">POST /compile-resume</text>
+      
+      <text x="310" y="580" font-size="13" font-weight="bold" fill="#2D3748">Cover Letter:</text>
+      <text x="310" y="600" font-size="11" fill="#4A5568">POST /generate-cover-letter</text>
+      <text x="310" y="618" font-size="11" fill="#4A5568">POST /save-cover-letter</text>
+      
+      <text x="110" y="660" font-size="13" font-weight="bold" fill="#2D3748">Applications:</text>
+      <text x="110" y="680" font-size="11" fill="#4A5568">GET /get-applications</text>
+      <text x="110" y="698" font-size="11" fill="#4A5568">POST /finalize-application</text>
+      <text x="310" y="680" font-size="11" fill="#4A5568">POST /update-status</text>
+    </g>
+
+    <!-- Core Functions -->
+    <g id="core-functions">
+      <rect x="590" y="530" width="510" height="200" rx="8" fill="white" stroke="#ED8936" stroke-width="2"/>
+      <text x="845" y="555" font-size="16" font-weight="bold" text-anchor="middle" fill="#ED8936">Core Functions</text>
+      
+      <text x="610" y="580" font-size="12" fill="#4A5568">• clean_latex() - Escape special chars</text>
+      <text x="610" y="600" font-size="12" fill="#4A5568">• inject_into_latex() - Insert content</text>
+      <text x="610" y="620" font-size="12" fill="#4A5568">• run_compilation() - Execute pdflatex</text>
+      <text x="610" y="640" font-size="12" fill="#4A5568">• save_cover_letter_files() - Create .tex</text>
+      <text x="610" y="660" font-size="12" fill="#4A5568">• load_apps() - Read JSON database</text>
+      <text x="610" y="680" font-size="12" fill="#4A5568">• Web search integration (DuckDuckGo)</text>
+    </g>
+  </g>
+
+  <!-- Arrows to AI and Services -->
+  <line x1="200" y1="760" x2="200" y2="830" stroke="#4A5568" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="210" y="800" font-size="11" fill="#4A5568">AI Prompt</text>
+
+  <line x1="600" y1="760" x2="600" y2="830" stroke="#4A5568" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="610" y="800" font-size="11" fill="#4A5568">LaTeX Files</text>
+
+  <line x1="1000" y1="760" x2="1000" y2="830" stroke="#4A5568" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="1010" y="800" font-size="11" fill="#4A5568">Save/Load</text>
+
+  <!-- AI & Services Layer -->
+  <g id="services">
+    <!-- Ollama AI -->
+    <g id="ollama">
+      <rect x="50" y="840" width="300" height="150" rx="10" fill="url(#grad2)" filter="url(#shadow)"/>
+      <text x="200" y="875" font-size="20" font-weight="bold" text-anchor="middle" fill="white">🤖 Ollama AI</text>
+      <text x="70" y="905" font-size="13" fill="white">Model: Qwen3:30b</text>
+      <text x="70" y="930" font-size="12" fill="white">• Resume Tailoring</text>
+      <text x="70" y="950" font-size="12" fill="white">• Cover Letter Writing</text>
+      <text x="70" y="970" font-size="12" fill="white">• Company Research</text>
+    </g>
+
+    <!-- LaTeX Compiler -->
+    <g id="latex">
+      <rect x="400" y="840" width="300" height="150" rx="10" fill="url(#grad3)" filter="url(#shadow)"/>
+      <text x="550" y="875" font-size="20" font-weight="bold" text-anchor="middle" fill="white">📄 LaTeX Engine</text>
+      <text x="420" y="905" font-size="13" fill="white">pdflatex Compiler</text>
+      <text x="420" y="930" font-size="12" fill="white">• template.tex → .tex</text>
+      <text x="420" y="950" font-size="12" fill="white">• Compile to PDF</text>
+      <text x="420" y="970" font-size="12" fill="white">• Clean auxiliary files</text>
+    </g>
+
+    <!-- Storage -->
+    <g id="storage">
+      <rect x="750" y="840" width="400" height="150" rx="10" fill="url(#grad1)" filter="url(#shadow)"/>
+      <text x="950" y="875" font-size="20" font-weight="bold" text-anchor="middle" fill="white">💾 Storage</text>
+      <text x="770" y="905" font-size="13" fill="white">File System</text>
+      <text x="770" y="930" font-size="12" fill="white">• master_resume.json (Source data)</text>
+      <text x="770" y="950" font-size="12" fill="white">• applications.json (Tracker DB)</text>
+      <text x="770" y="970" font-size="12" fill="white">• archives/ (Completed apps)</text>
+    </g>
+  </g>
+
+  <!-- Workflow Annotations -->
+  <g id="workflow">
+    <rect x="50" y="1020" width="1100" height="340" rx="10" fill="#FFFBEB" stroke="#F59E0B" stroke-width="2"/>
+    <text x="600" y="1050" font-size="22" font-weight="bold" text-anchor="middle" fill="#92400E">
+      📊 Application Generation Workflow
+    </text>
+
+    <!-- Step 1 -->
+    <g id="step1">
+      <circle cx="100" cy="1090" r="25" fill="#10B981" stroke="#065F46" stroke-width="2"/>
+      <text x="100" y="1098" font-size="18" font-weight="bold" text-anchor="middle" fill="white">1</text>
+      <text x="140" y="1080" font-size="14" font-weight="bold" fill="#065F46">Job Details Input</text>
+      <text x="140" y="1100" font-size="11" fill="#4A5568">User enters: Company, Position, JD</text>
+    </g>
+
+    <!-- Step 2 -->
+    <g id="step2">
+      <circle cx="100" cy="1150" r="25" fill="#3B82F6" stroke="#1E3A8A" stroke-width="2"/>
+      <text x="100" y="1158" font-size="18" font-weight="bold" text-anchor="middle" fill="white">2</text>
+      <text x="140" y="1140" font-size="14" font-weight="bold" fill="#1E3A8A">AI Resume Generation</text>
+      <text x="140" y="1160" font-size="11" fill="#4A5568">Ollama analyzes JD + master_resume.json</text>
+      <text x="140" y="1175" font-size="11" fill="#4A5568">Outputs tailored LaTeX content</text>
+    </g>
+
+    <!-- Step 3 -->
+    <g id="step3">
+      <circle cx="100" cy="1220" r="25" fill="#8B5CF6" stroke="#5B21B6" stroke-width="2"/>
+      <text x="100" y="1228" font-size="18" font-weight="bold" text-anchor="middle" fill="white">3</text>
+      <text x="140" y="1210" font-size="14" font-weight="bold" fill="#5B21B6">LaTeX Injection & Compile</text>
+      <text x="140" y="1230" font-size="11" fill="#4A5568">inject_into_latex() updates template.tex</text>
+      <text x="140" y="1245" font-size="11" fill="#4A5568">pdflatex generates tailored_resume.pdf</text>
+    </g>
+
+    <!-- Step 4 -->
+    <g id="step4">
+      <circle cx="100" cy="1290" r="25" fill="#EC4899" stroke="#9F1239" stroke-width="2"/>
+      <text x="100" y="1298" font-size="18" font-weight="bold" text-anchor="middle" fill="white">4</text>
+      <text x="140" y="1280" font-size="14" font-weight="bold" fill="#9F1239">User Review & Edit</text>
+      <text x="140" y="1300" font-size="11" fill="#4A5568">Preview PDF, edit sections in UI</text>
+      <text x="140" y="1315" font-size="11" fill="#4A5568">Regenerate or Update Preview options</text>
+    </g>
+
+    <!-- Step 5 -->
+    <g id="step5">
+      <circle cx="650" cy="1090" r="25" fill="#F59E0B" stroke="#92400E" stroke-width="2"/>
+      <text x="650" y="1098" font-size="18" font-weight="bold" text-anchor="middle" fill="white">5</text>
+      <text x="690" y="1080" font-size="14" font-weight="bold" fill="#92400E">Cover Letter Generation</text>
+      <text x="690" y="1100" font-size="11" fill="#4A5568">AI researches company via DuckDuckGo</text>
+      <text x="690" y="1115" font-size="11" fill="#4A5568">Generates personalized letter</text>
+    </g>
+
+    <!-- Step 6 -->
+    <g id="step6">
+      <circle cx="650" cy="1160" r="25" fill="#06B6D4" stroke="#164E63" stroke-width="2"/>
+      <text x="650" y="1168" font-size="18" font-weight="bold" text-anchor="middle" fill="white">6</text>
+      <text x="690" y="1150" font-size="14" font-weight="bold" fill="#164E63">Cover Letter Compile</text>
+      <text x="690" y="1170" font-size="11" fill="#4A5568">Writes info.tex and body.tex</text>
+      <text x="690" y="1185" font-size="11" fill="#4A5568">Compiles main.tex → cover_letter.pdf</text>
+    </g>
+
+    <!-- Step 7 -->
+    <g id="step7">
+      <circle cx="650" cy="1230" r="25" fill="#EF4444" stroke="#991B1B" stroke-width="2"/>
+      <text x="650" y="1238" font-size="18" font-weight="bold" text-anchor="middle" fill="white">7</text>
+      <text x="690" y="1220" font-size="14" font-weight="bold" fill="#991B1B">Finalize & Archive</text>
+      <text x="690" y="1240" font-size="11" fill="#4A5568">Creates timestamped folder in archives/</text>
+      <text x="690" y="1255" font-size="11" fill="#4A5568">Copies PDFs and JD text</text>
+    </g>
+
+    <!-- Step 8 -->
+    <g id="step8">
+      <circle cx="650" cy="1300" r="25" fill="#14B8A6" stroke="#115E59" stroke-width="2"/>
+      <text x="650" y="1308" font-size="18" font-weight="bold" text-anchor="middle" fill="white">8</text>
+      <text x="690" y="1290" font-size="14" font-weight="bold" fill="#115E59">Track Application</text>
+      <text x="690" y="1310" font-size="11" fill="#4A5568">Adds entry to applications.json</text>
+      <text x="690" y="1325" font-size="11" fill="#4A5568">Status: Applied → Interviewing → Offer</text>
+    </g>
+
+    <!-- Flow arrows -->
+    <path d="M 125 1090 L 625 1090" stroke="#9CA3AF" stroke-width="2" stroke-dasharray="5,5" fill="none"/>
+    <path d="M 100 1115 L 100 1195" stroke="#9CA3AF" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <path d="M 650 1115 L 650 1205" stroke="#9CA3AF" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  </g>
+
+  <!-- Legend -->
+  <g id="legend">
+    <rect x="950" y="1050" width="180" height="100" rx="5" fill="white" stroke="#CBD5E0" stroke-width="1"/>
+    <text x="1040" y="1070" font-size="13" font-weight="bold" text-anchor="middle" fill="#2D3748">Legend</text>
+    <circle cx="965" cy="1085" r="5" fill="#10B981"/>
+    <text x="980" y="1090" font-size="11" fill="#4A5568">User Input</text>
+    <circle cx="965" cy="1105" r="5" fill="#3B82F6"/>
+    <text x="980" y="1110" font-size="11" fill="#4A5568">AI Processing</text>
+    <circle cx="965" cy="1125" r="5" fill="#EC4899"/>
+    <text x="980" y="1130" font-size="11" fill="#4A5568">User Action</text>
+  </g>
+</svg>
