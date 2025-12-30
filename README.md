@@ -270,7 +270,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 Your Name - atrijoshi12@gmail.com
 
-Project Link: [[https://github.com/yourusername/resume-factory](https://github.com/akjoshi12/resume-factory]([https://github.com/yourusername/resume-factory](https://github.com/akjoshi12/resume-factory/)
+Project Link: [https://github.com/akjoshi12/resume-factory](https://github.com/akjoshi12/resume-factory/)
 
 ---
 
