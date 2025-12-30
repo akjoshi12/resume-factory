@@ -27,6 +27,8 @@ An intelligent resume and cover letter generation system powered by AI. Build ta
 
 ## 🏗️ Architecture
 
+![Diagram](Diagram.svg)
+
 The system consists of three main components:
 
 1. **Frontend** (Streamlit): User interface for creating and managing applications
