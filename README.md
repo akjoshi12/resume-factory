@@ -27,7 +27,7 @@ An intelligent resume and cover letter generation system powered by AI. Build ta
 
 ## 🏗️ Architecture
 
-![Diagram](Diagram.svg)
+![Diagram](diagram.svg)
 
 The system consists of three main components:
 
