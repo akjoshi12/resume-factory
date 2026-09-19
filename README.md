@@ -6,7 +6,7 @@ graph checkpoints.
 
 ## Demo
 
-[![Watch the demo](brag-output/brag.jpg)](https://github.com/akjoshi12/resume-factory/blob/main/brag-output/brag.mp4)
+[![Watch the demo](brag-output/brag.mp4)](https://github.com/akjoshi12/resume-factory/blob/main/brag-output/brag.mp4)
 
 ## What it guarantees
 
