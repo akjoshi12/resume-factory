@@ -8,6 +8,10 @@ graph checkpoints.
 
 https://github.com/user-attachments/assets/6d7bb3dc-ee9c-49b1-9f2c-01ffbf5eba4b
 
+## Architecture
+
+![Runtime architecture: Reflex UI to service layer to LangGraph, with the graph reaching out to the local LLM, master_resume.json, pdflatex, SQLite, and PDF output](diagram.svg)
+
 ## What it guarantees
 
 The model may **select and rephrase** bullets from `data/master_resume.json`. It may not
