@@ -6,6 +6,11 @@ graph checkpoints.
 
 ## Demo
 
+
+https://github.com/user-attachments/assets/6d7bb3dc-ee9c-49b1-9f2c-01ffbf5eba4b
+
+
+
 <video src="brag-output/brag.mp4" controls muted playsinline></video>
 
 ## What it guarantees
