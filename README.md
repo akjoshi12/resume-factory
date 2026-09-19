@@ -4,6 +4,10 @@ Local-first tailored resume and cover letter generation. Reflex front end, LangG
 state machine with two human review gates, SQLite for both application records and
 graph checkpoints.
 
+## Demo
+
+[![Watch the demo](brag-output/brag.jpg)](https://github.com/akjoshi12/resume-factory/blob/main/brag-output/brag.mp4)
+
 ## What it guarantees
 
 The model may **select and rephrase** bullets from `data/master_resume.json`. It may not
