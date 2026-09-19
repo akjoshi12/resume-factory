@@ -1,0 +1,60 @@
+\PassOptionsToPackage{hidelinks}{hyperref}
+\documentclass{resume}
+\usepackage[left=0.4in,top=0.35in,right=0.4in,bottom=0.35in]{geometry}
+\setlength{\parskip}{0em}
+
+\name{Atri Joshi}
+\address{
+Toronto, ON
+ \\ \href{mailto:atrijoshi12@gmail.com}{atrijoshi12@gmail.com}
+ \\ \href{https://www.linkedin.com/in/atrijoshi/}{linkedin.com/in/atrijoshi}
+ \\ \href{https://github.com/akjoshi12}{github.com/akjoshi12}
+ \\ \href{https://atrijoshi.vercel.app/}{atrijoshi.vercel.app}
+}
+
+\begin{document}
+
+
+\begin{rSection}{Skills}
+\vspace{0.4em}
+\textbf{Languages:} Python, SQL, R (coursework only) \\
+\textbf{Data Processing:} PySpark, Pandas, Databricks, Azure Data Factory, Snowflake \\
+\textbf{Databases:} MySQL, Elasticsearch, relational data modelling \\
+\textbf{Data Quality:} validation and reconciliation logic, tiered quality gates (bronze/silver/gold), root-cause investigation, data dictionary and transformation documentation \\
+\textbf{BI and Reporting:} Power BI (DAX calculated measures, dashboard design), tiered audience reporting \\
+\textbf{AI and ML:} RAG and retrieval systems, LangGraph, prompt engineering, LLM evaluation (eval harness design, failure analysis, Cohen's kappa, model cards), Whisper, Pyannote, spaCy, local LLM inference (LM Studio, quantized models on Apple Silicon) \\
+\textbf{Engineering:} FastAPI, Flask, Git, Jenkins, SonarQube, Prometheus, pytest, ruff, mypy, Linux 
+\end{rSection}
+
+\begin{rSection}{Experience}
+\vspace{0.4em}
+\textbf{AI Research Intern, Toronto Business College, Toronto, ON} \hfill Jan 2025 - Apr 2025
+\begin{itemize}
+    \item Led an 8-person cross-functional team delivering MinuteMinders, a system automating meeting transcription, speaker diarization, summarization, and task extraction to replace manual minute-taking (Whisper, Pyannote, Mistral, spaCy, FastAPI, MySQL, Elasticsearch, React).
+    \item Defined and ran the evaluation approach for the system, measuring transcription accuracy (WER 0.0746, CER 0.2932) and benchmarking generated summary readability against a Microsoft Copilot baseline (Flesch Reading Ease 50.53 vs 63.55) instead of relying on subjective quality review.
+    \item Ran a documented tool-selection process at each pipeline stage, recording rationale and known limitations for every decision, and authored setup and usage documentation enabling the client organization to operate the system independently.
+    \item Built a Jenkins CI pipeline with GitHub webhook triggers and SonarQube quality gates across a \textasciitilde{}15,400-line codebase, with Prometheus monitoring on the deployed service.
+\end{itemize}
+
+\end{rSection}
+
+\begin{rSection}{Projects}
+\vspace{0.4em}
+\textbf{AURA v2} -- Engineered a validated 50-70k-turn training corpus, harmonizing four heterogeneous public datasets into a unified JSONL schema with shared parser utilities and a single strategy label taxonomy.
+
+\textbf{Resume Factory} -- Building a local-first document automation tool that composes tailored resumes from a structured content store, with provenance constraints on every factual claim and a human review step before output.
+
+\textbf{Project Redline} -- Built a three-phase benchmark harness measuring local LLM throughput and hardware saturation on Apple Silicon, instrumenting token-level timing and thermal telemetry alongside EvalPlus code-solving accuracy.
+
+\end{rSection}
+
+\begin{rSection}{Education}
+\vspace{0.4em}
+\textbf{Ontario College Graduate Certificate, AI and Data Science} \hfill Sep 2023 - Apr 2025 \\
+Loyalist College, Toronto, ON \\
+\textbf{B.Tech., Computer Science} \hfill Aug 2018 - Jun 2022 \\
+Rashtriya Raksha University, Gujarat, India
+\end{rSection}
+
+
+\end{document}

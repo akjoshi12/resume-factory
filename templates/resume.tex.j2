@@ -1,0 +1,101 @@
+<# Generated resume. Jinja delimiters are << >> and <% %> so LaTeX braces pass through.
+   TLCresume.sty and _header.tex are copied in alongside this file at compile time. #>
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{TLCresume}
+
+\def\name{<< profile.name|tex >>}
+\def\phone{<< profile.phone|tex >>}
+\def\city{<< profile.location|tex >>}
+\def\email{<< profile.email >>}
+\def\LinkedIn{<< profile.linkedin >>}
+\def\github{<< profile.github >>}
+\def\role{<< role|tex >>}
+\def\portfoliourl{<< profile.portfolio_url >>}
+\def\portfolioname{<< profile.portfolio_name|tex >>}
+
+\input{_header}
+\begin{document}\pagestyle{others}\thispagestyle{first_page}
+
+<% if objective %>
+<< objective|tex >>
+<% endif %>
+
+<% if skills %>
+\section{Skills}
+<# Column 1 widened from the stock 11em, which hyphenated 'Data Quality & Governance'. #>
+\begin{tabular}{@{}p{13em} p{0.5em} p{\dimexpr\linewidth-14em\relax}@{}}
+<% for group in skills %>
+<# \raggedright redefines \\ inside a p-column, so rows end with \tabularnewline. #>
+\skills {<< group.label|tex >>} & & \raggedright << group.entries|join(', ')|tex >> \tabularnewline
+<% endfor %>
+\end{tabular}
+<% endif %>
+
+<% if professional %>
+\section{Professional Experience}
+<% for role in professional %>
+\subsection{{<< role.title|tex >> \hfill << role.date_range >>}}
+\subtext{<< role.org|tex >> \hfill << role.location|tex >>}
+\begin{zitemize}
+<% for bullet in role.bullets %>
+    \item << bullet|tex >>
+<% endfor %>
+\end{zitemize}
+
+<% endfor %>
+<% endif %>
+
+<% if additional %>
+\noindent\makebox[\linewidth]{\hrulefill\hspace{10pt}\textbf{Additional Experience}\hspace{10pt}\hrulefill}
+
+<% for role in additional %>
+\subsection{{<< role.title|tex >> \hfill << role.date_range >>}}
+\subtext{<< role.org|tex >> \hfill << role.location|tex >>}
+\begin{zitemize}
+<% for bullet in role.bullets %>
+    \item << bullet|tex >>
+<% endfor %>
+\end{zitemize}
+
+<% endfor %>
+<% endif %>
+
+<% if projects %>
+\section{Projects}
+<% for project in projects %>
+\subsection{{<< project.name|tex >>}}
+\begin{zitemize}
+<% for bullet in project.bullets %>
+    \item << bullet|tex >>
+<% endfor %>
+\end{zitemize}
+
+<% endfor %>
+<% endif %>
+
+<% if education %>
+\section{Education}
+<% for item in education %>
+\skills{<< item.credential|tex >>}, \textit{<< item.institution|tex >>,} {<< item.location|tex >>} \hfill << item.date_range >>
+
+<% endfor %>
+<% endif %>
+
+<% if certifications %>
+\section{Certifications}
+<% for cert in certifications %>
+<< cert.name|tex >> \hfill << cert.issuer|tex >><% if not loop.last %> \newline<% endif %>
+
+<% endfor %>
+<% endif %>
+
+<% if activities %>
+\section{Activities}
+<% for item in activities %>
+<< item.title|tex >> \hfill << item.dates|tex >>
+
+<% endfor %>
+<% endif %>
+
+\end{document}

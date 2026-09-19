@@ -1,0 +1,66 @@
+\PassOptionsToPackage{hidelinks}{hyperref}
+\documentclass{resume}
+\usepackage[left=0.4in,top=0.35in,right=0.4in,bottom=0.35in]{geometry}
+\setlength{\parskip}{0em}
+
+\name{Atri Joshi}
+\address{
+Toronto, ON
+ \\ \href{mailto:atrijoshi12@gmail.com}{atrijoshi12@gmail.com}
+ \\ \href{https://www.linkedin.com/in/atrijoshi/}{linkedin.com/in/atrijoshi}
+ \\ \href{https://github.com/akjoshi12}{github.com/akjoshi12}
+ \\ \href{https://atrijoshi.vercel.app/}{atrijoshi.vercel.app}
+}
+
+\begin{document}
+
+
+\begin{rSection}{Skills}
+\vspace{0.4em}
+\textbf{Languages:} Python, SQL, R (coursework only) \\
+\textbf{Data Processing:} PySpark, Pandas, Databricks, Azure Data Factory, Snowflake \\
+\textbf{Databases:} MySQL, Elasticsearch, relational data modelling \\
+\textbf{Data Quality:} validation and reconciliation logic, tiered quality gates (bronze/silver/gold), root-cause investigation, data dictionary and transformation documentation \\
+\textbf{BI and Reporting:} Power BI (DAX calculated measures, dashboard design), tiered audience reporting \\
+\textbf{AI and ML:} RAG and retrieval systems, LangGraph, prompt engineering, LLM evaluation (eval harness design, failure analysis, Cohen's kappa, model cards), Whisper, Pyannote, spaCy, local LLM inference (LM Studio, quantized models on Apple Silicon) \\
+\textbf{Engineering:} FastAPI, Flask, Git, Jenkins, SonarQube, Prometheus, pytest, ruff, mypy, Linux 
+\end{rSection}
+
+\begin{rSection}{Experience}
+\vspace{0.4em}
+\textbf{Associate Consultant, TekLink Software Pvt Ltd, Hyderabad, India} \hfill Jul 2022 - Aug 2023
+\begin{itemize}
+    \item Built and maintained Azure Data Factory and Databricks pipelines for large enterprise clients across coatings, consumer goods, and apparel; the largest engagement moved roughly 200GB across 100+ tables through 5-6 pipelines on a six-hour daily cycle.
+    \item Applied business-defined data quality rules to classify pipeline records into bronze, silver, and gold tiers, catching completeness and consistency issues before data reached reporting layers.
+    \item Investigated a pipeline load that had degraded from a 1-2 minute baseline to roughly an hour; traced the root cause to improperly handled nested JSON structures and worked with the team to restructure the parsing, restoring runtime to baseline.
+    \item Wrote and optimized complex SQL against enterprise data models, including validation and reconciliation logic checking merged data across multiple source systems.
+\end{itemize}
+
+\textbf{Research Intern, Tech Mahindra, Pune, India} \hfill Jun 2021 - Jun 2022
+\begin{itemize}
+    \item Worked on a national crime and policing intelligence platform for India's Ministry of Home Affairs, unifying data on police organization, insurgency, and crime records into a single queryable model.
+    \item Integrated five distinct source types --- handwritten records, scanned PDFs, CSVs, legacy SQL records, and government Excel files --- across six subject areas, applying integrity checks to maintain consistency across merges.
+    \item Built Power BI dashboards delivered in two tiers, a restricted government version and a public-facing version, used to monitor crime, policing capacity, and operational metrics.
+    \item Worked directly with ministry leadership and the project lead on visualization design and accessibility, shaping how reporting surfaced findings for non-technical decision-makers.
+\end{itemize}
+
+\end{rSection}
+
+
+\begin{rSection}{Education}
+\vspace{0.4em}
+\textbf{Ontario College Graduate Certificate, AI and Data Science} \hfill Sep 2023 - Apr 2025 \\
+Loyalist College, Toronto, ON \\
+\textbf{B.Tech., Computer Science} \hfill Aug 2018 - Jun 2022 \\
+Rashtriya Raksha University, Gujarat, India
+\end{rSection}
+
+\begin{rSection}{Certifications}
+\vspace{0.4em}
+Microsoft Certified: Azure Data Engineer Associate (DP-203) \\
+Microsoft Azure Databricks for Data Engineering \\
+Snowflake Hands-on Essentials: Data Warehouse \\
+Microsoft Power BI - Business Intelligence
+\end{rSection}
+
+\end{document}

@@ -1,0 +1,3 @@
+I made Resume Factory.
+It rewrites my resume with a local LLM, then checks every rewritten line against my real history and refuses to send anything it can't back up.
+There's no ATS score, because no ATS emits one.

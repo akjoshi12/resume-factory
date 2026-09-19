@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Resume Factory v2 — Runtime Architecture",
+    "output": "resume-factory-architecture.html",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "viewBox": [1180, 700],
+    "views": [
+      {
+        "id": "run-lifecycle",
+        "label": "Run lifecycle",
+        "focus": ["user", "ui", "service", "graph", "db", "llm"],
+        "note": "A run enters through the Reflex UI, which holds only a thread ID; the LangGraph state machine owns all run state."
+      },
+      {
+        "id": "deterministic-guards",
+        "label": "Deterministic guards",
+        "focus": ["graph", "master", "latex", "pdfs"],
+        "note": "Claim verification, the one-page trim loop, and PDF parse-back run without the model."
+      },
+      {
+        "id": "storage-artifacts",
+        "label": "Storage and artifacts",
+        "focus": ["db", "master", "pdfs"],
+        "note": "One SQLite file holds graph checkpoints and application rows; final PDFs land under .rfdata/out."
+      }
+    ]
+  },
+  "components": [
+    { "id": "jd", "type": "external", "label": "Job posting", "sublabel": "fetched URL or pasted text", "pos": [40, 100], "size": [140, 60] },
+    { "id": "user", "type": "external", "label": "User", "sublabel": "edits, approves, rejects", "pos": [40, 330], "size": [120, 60] },
+    { "id": "ui", "type": "frontend", "label": "Reflex UI", "sublabel": "dashboard, new, review, detail", "pos": [210, 328], "size": [160, 64], "tag": "holds thread_id only" },
+    { "id": "service", "type": "backend", "label": "Service layer", "sublabel": "sync bridge via to_thread", "pos": [440, 328], "size": [160, 64] },
+    { "id": "graph", "type": "backend", "label": "LangGraph graph", "sublabel": "12 nodes, 2 human gates", "pos": [670, 316], "size": [200, 88], "tag": "SqliteSaver checkpoints" },
+    { "id": "llm", "type": "external", "label": "Qwen3-27B", "sublabel": "local, LM Studio :1234/v1", "pos": [440, 100], "size": [170, 64], "brand": "qwen" },
+    { "id": "master", "type": "database", "label": "master_resume.json", "sublabel": "track-tagged bullets, skills", "pos": [690, 100], "size": [180, 64] },
+    { "id": "latex", "type": "external", "label": "pdflatex", "sublabel": "Jinja to TeX to PDF", "pos": [960, 100], "size": [170, 64] },
+    { "id": "db", "type": "database", "label": "SQLite", "sublabel": "checkpoints + application rows", "pos": [675, 540], "size": [170, 64], "brand": "sqlite" },
+    { "id": "pdfs", "type": "database", "label": "PDF artifacts", "sublabel": ".rfdata/out, served at /api/pdf", "pos": [950, 540], "size": [180, 64] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Local machine (offline-first)", "wraps": ["ui", "service", "graph", "db", "master", "llm", "latex", "pdfs"], "pad": 18 },
+    { "kind": "security-group", "label": "Tailnet — UI + API only, no app login", "wraps": ["ui", "service"] }
+  ],
+  "connections": [
+    { "id": "user-ui", "from": "user", "to": "ui", "label": "edits, approve, reject", "variant": "emphasis" },
+    { "id": "ui-service", "from": "ui", "to": "service", "label": "actions + thread_id", "variant": "emphasis" },
+    { "id": "service-graph", "from": "service", "to": "graph", "label": "invoke / resume()", "variant": "emphasis" },
+    { "id": "service-db", "from": "service", "to": "db", "label": "Application, DraftVersion rows", "variant": "dashed" },
+    { "id": "graph-db", "from": "graph", "to": "db", "label": "checkpoints" },
+    { "id": "graph-llm", "from": "graph", "to": "llm", "label": "ingest, tailor, cover" },
+    { "id": "graph-master", "from": "graph", "to": "master", "label": "selects track-tagged bullets" },
+    { "id": "graph-jd", "from": "jd", "to": "graph", "label": "fetched best-effort via trafilatura" },
+    { "id": "graph-latex", "from": "graph", "to": "latex", "label": "render, trim, parse-back" },
+    { "id": "graph-pdfs", "from": "graph", "to": "pdfs", "label": "final resume + cover" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "State and checkpoints",
+      "items": [
+        "Reflex holds only a thread ID; LangGraph + SqliteSaver own all run state",
+        "One .rfdata/rfactory.db file holds checkpoints, Application rows, and the DraftVersion history",
+        "pending_gate() re-reads a live interrupt, so a review survives a restart"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Deterministic guards (no model)",
+      "items": [
+        "Claim verifier: numbers and named entities in a rewrite must exist in its source bullet; 3 retries, then violations are shown",
+        "One-page trim loop drops the least JD-relevant item; after 8 attempts the overflow is shown to the human",
+        "Parse-back re-reads the PDF with pdfplumber (strict and lenient) plus optional pdftotext, flagging spacing risk",
+        "JD keyword coverage is scored on extracted text, because no ATS emits a score"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Model contract",
+      "items": [
+        "One OpenAI-compatible client serves local LM Studio and any cloud endpoint; switching is a config change",
+        "Grammar-constrained JSON via response_format, thinking disabled, per-call token caps, one retry on invalid JSON, loud failure",
+        "LinkedIn and Indeed postings sit behind login or bot walls, so URL fetch is best-effort and the UI accepts pasted text"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Trust boundaries",
+      "items": [
+        "Access control is the tailnet itself; a password on top of a private network is theatre, so there is no app-level login",
+        "serve.sh bakes the .ts.net host into the frontend bundle and keeps the Mac awake with caffeinate for the server's lifetime",
+        "The JD URL fetch is untrusted web input, best-effort; LinkedIn and Indeed bot walls make pasted text the normal path"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Human gates",
+      "items": [
+        "interrupt() at resume review: approve, revise edited fields (re-render and re-score), or reject to re-enter tailoring with feedback",
+        "A second interrupt() after the cover-letter branch, then finalize records the application",
+        "Rejections reset verify and fit counters so retry loops cannot accumulate across attempts"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,585 @@
+{
+  "schema_version": "2.2",
+  "updated": "2026-09-15",
+  "tracks": [
+    "ai_eng",
+    "data_eng",
+    "data_analyst",
+    "data_sci",
+    "research_data"
+  ],
+  "profile": {
+    "name": "Atri Joshi",
+    "phone": "(437) 662-5837",
+    "email": "atrijoshi12@gmail.com",
+    "location": "Toronto, ON",
+    "role_default": "Data Engineer",
+    "linkedin": "atrijoshi",
+    "github": "akjoshi12",
+    "portfolio_url": "https://atrijoshi.vercel.app",
+    "portfolio_name": "atrijoshi.vercel.app"
+  },
+  "skill_group_labels": {
+    "languages": "Languages",
+    "data_processing": "Data Processing",
+    "databases": "Databases & Cloud",
+    "data_quality": "Data Quality & Governance",
+    "bi_reporting": "Reporting & Visualization",
+    "ai_ml": "AI & Machine Learning",
+    "engineering": "Environment & Tooling"
+  },
+  "skills": {
+    "languages": [
+      "Python",
+      "SQL",
+      "R (coursework only)"
+    ],
+    "data_processing": [
+      "PySpark",
+      "Pandas",
+      "Databricks",
+      "Azure Data Factory",
+      "Snowflake"
+    ],
+    "databases": [
+      "MySQL",
+      "Elasticsearch",
+      "relational data modelling"
+    ],
+    "data_quality": [
+      "validation and reconciliation logic",
+      "tiered quality gates (bronze/silver/gold)",
+      "root-cause investigation",
+      "data dictionary and transformation documentation"
+    ],
+    "bi_reporting": [
+      "Power BI (DAX calculated measures, dashboard design)",
+      "tiered audience reporting"
+    ],
+    "ai_ml": [
+      "RAG and retrieval systems",
+      "LangGraph",
+      "prompt engineering",
+      "LLM evaluation (eval harness design, failure analysis, Cohen's kappa, model cards)",
+      "Whisper",
+      "Pyannote",
+      "spaCy",
+      "local LLM inference (LM Studio, quantized models on Apple Silicon)"
+    ],
+    "engineering": [
+      "FastAPI",
+      "Flask",
+      "Git",
+      "Jenkins",
+      "SonarQube",
+      "Prometheus",
+      "pytest",
+      "ruff",
+      "mypy",
+      "Linux"
+    ],
+    "stale": {
+      "note": "Real experience, but not used since 2023. Safe to list; do not imply currency in a summary line.",
+      "items": [
+        "PySpark",
+        "Databricks",
+        "Azure Data Factory",
+        "Snowflake",
+        "Power BI"
+      ]
+    }
+  },
+  "experience": [
+    {
+      "id": "teklink",
+      "org": "TekLink Software Pvt Ltd",
+      "title": "Associate Consultant",
+      "location": "Hyderabad, India",
+      "start": "2022-07",
+      "end": "2023-08",
+      "tracks": [
+        "data_eng",
+        "data_analyst",
+        "research_data",
+        "data_sci"
+      ],
+      "bullets": [
+        {
+          "id": "tek_pipelines",
+          "priority": 5,
+          "tags": [
+            "etl",
+            "azure",
+            "databricks",
+            "scale"
+          ],
+          "text": "Built and maintained Azure Data Factory and Databricks pipelines for large enterprise clients across coatings, consumer goods, and apparel; the largest engagement moved roughly 200GB across 100+ tables through 5-6 pipelines on a six-hour daily cycle."
+        },
+        {
+          "id": "tek_quality",
+          "priority": 5,
+          "tags": [
+            "data_quality",
+            "governance",
+            "validation"
+          ],
+          "text": "Applied business-defined data quality rules to classify pipeline records into bronze, silver, and gold tiers, catching completeness and consistency issues before data reached reporting layers."
+        },
+        {
+          "id": "tek_json",
+          "priority": 5,
+          "tags": [
+            "debugging",
+            "root_cause",
+            "performance"
+          ],
+          "text": "Investigated a pipeline load that had degraded from a 1-2 minute baseline to roughly an hour; traced the root cause to improperly handled nested JSON structures and worked with the team to restructure the parsing, restoring runtime to baseline."
+        },
+        {
+          "id": "tek_sql",
+          "priority": 4,
+          "tags": [
+            "sql",
+            "reconciliation",
+            "validation"
+          ],
+          "text": "Wrote and optimized complex SQL against enterprise data models, including validation and reconciliation logic checking merged data across multiple source systems."
+        },
+        {
+          "id": "tek_powerbi",
+          "priority": 4,
+          "tags": [
+            "power_bi",
+            "dax",
+            "stakeholder"
+          ],
+          "text": "Translated open-ended client questions into Power BI reporting and DAX measures, including an analysis of which vehicle components beyond wheels were receiving coatings, giving the client visibility into where product volume was concentrated."
+        },
+        {
+          "id": "tek_migration",
+          "priority": 3,
+          "tags": [
+            "migration",
+            "cloud",
+            "data_modelling"
+          ],
+          "text": "Contributed to an on-premise-to-cloud migration consolidating a client's HR data from multiple source systems into a single cloud data model."
+        },
+        {
+          "id": "tek_schema",
+          "priority": 2,
+          "tags": [
+            "data_modelling",
+            "validation"
+          ],
+          "text": "Implemented and validated relational data schemas specified by the team's Data Architect, troubleshooting data integrity issues across pipeline stages."
+        },
+        {
+          "id": "tek_docs",
+          "priority": 2,
+          "tags": [
+            "documentation",
+            "governance"
+          ],
+          "text": "Documented data definitions and transformation logic so pipelines could be maintained, rerun, and extended by other team members."
+        }
+      ],
+      "section": "professional"
+    },
+    {
+      "id": "techm",
+      "org": "Tech Mahindra",
+      "title": "Research Intern",
+      "location": "Pune, India",
+      "start": "2021-06",
+      "end": "2022-06",
+      "tracks": [
+        "data_analyst",
+        "data_eng",
+        "research_data",
+        "data_sci"
+      ],
+      "bullets": [
+        {
+          "id": "tm_platform",
+          "priority": 5,
+          "tags": [
+            "data_integration",
+            "government",
+            "domain"
+          ],
+          "text": "Worked on a national crime and policing intelligence platform for India's Ministry of Home Affairs, unifying data on police organization, insurgency, and crime records into a single queryable model."
+        },
+        {
+          "id": "tm_sources",
+          "priority": 5,
+          "tags": [
+            "data_integration",
+            "heterogeneous_sources",
+            "data_quality"
+          ],
+          "text": "Integrated five distinct source types — handwritten records, scanned PDFs, CSVs, legacy SQL records, and government Excel files — across six subject areas, applying integrity checks to maintain consistency across merges."
+        },
+        {
+          "id": "tm_dashboards",
+          "priority": 4,
+          "tags": [
+            "power_bi",
+            "reporting",
+            "audience_tiering"
+          ],
+          "text": "Built Power BI dashboards delivered in two tiers, a restricted government version and a public-facing version, used to monitor crime, policing capacity, and operational metrics."
+        },
+        {
+          "id": "tm_stakeholder",
+          "priority": 4,
+          "tags": [
+            "stakeholder",
+            "communication",
+            "requirements"
+          ],
+          "text": "Worked directly with ministry leadership and the project lead on visualization design and accessibility, shaping how reporting surfaced findings for non-technical decision-makers."
+        },
+        {
+          "id": "tm_backend",
+          "priority": 2,
+          "tags": [
+            "backend",
+            "full_stack"
+          ],
+          "text": "Developed Flask backend APIs and a JavaScript frontend surfacing interactive dashboards and trend analytics over a centralized MySQL database, deployed to cloud infrastructure."
+        }
+      ],
+      "section": "professional"
+    },
+    {
+      "id": "tbc",
+      "org": "Toronto Business College",
+      "title": "AI Research Intern",
+      "location": "Toronto, ON",
+      "start": "2025-01",
+      "end": "2025-04",
+      "tracks": [
+        "ai_eng",
+        "data_sci",
+        "data_analyst",
+        "research_data"
+      ],
+      "bullets": [
+        {
+          "id": "tbc_lead",
+          "priority": 5,
+          "tags": [
+            "leadership",
+            "ml_systems",
+            "automation",
+            "nlp"
+          ],
+          "text": "Led an 8-person cross-functional team delivering MinuteMinders, a system automating meeting transcription, speaker diarization, summarization, and task extraction to replace manual minute-taking (Whisper, Pyannote, Mistral, spaCy, FastAPI, MySQL, Elasticsearch, React)."
+        },
+        {
+          "id": "tbc_eval",
+          "priority": 5,
+          "tags": [
+            "evaluation",
+            "metrics",
+            "benchmarking"
+          ],
+          "text": "Defined and ran the evaluation approach for the system, measuring transcription accuracy (WER 0.0746, CER 0.2932) and benchmarking generated summary readability against a Microsoft Copilot baseline (Flesch Reading Ease 50.53 vs 63.55) instead of relying on subjective quality review."
+        },
+        {
+          "id": "tbc_toolsel",
+          "priority": 3,
+          "tags": [
+            "documentation",
+            "judgment",
+            "handover"
+          ],
+          "text": "Ran a documented tool-selection process at each pipeline stage, recording rationale and known limitations for every decision, and authored setup and usage documentation enabling the client organization to operate the system independently."
+        },
+        {
+          "id": "tbc_cicd",
+          "priority": 3,
+          "tags": [
+            "devops",
+            "ci_cd",
+            "code_quality"
+          ],
+          "text": "Built a Jenkins CI pipeline with GitHub webhook triggers and SonarQube quality gates across a ~15,400-line codebase, with Prometheus monitoring on the deployed service."
+        }
+      ],
+      "section": "professional"
+    },
+    {
+      "id": "paragon",
+      "org": "Paragon Protection Limited",
+      "title": "Shift Supervisor",
+      "location": "Toronto, ON",
+      "start": "2025-06",
+      "end": null,
+      "tracks": [
+        "ai_eng",
+        "data_eng",
+        "data_analyst",
+        "data_sci",
+        "research_data"
+      ],
+      "section": "additional",
+      "bullets": [
+        {
+          "id": "par_1",
+          "priority": 1,
+          "tags": [
+            "operations",
+            "leadership"
+          ],
+          "text": "Supervise building services operations, coordinating shift staffing and incident documentation alongside continued technical project work."
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "id": "loyalist",
+      "institution": "Loyalist College",
+      "credential": "Post graduate diploma in AI and Data Science",
+      "location": "Toronto, ON",
+      "start": "2023-09",
+      "end": "2025-04"
+    },
+    {
+      "id": "rru",
+      "institution": "Rashtriya Raksha University",
+      "credential": "Bachelor of Technology in Computer Science",
+      "location": "Gujarat, India",
+      "start": "2018-08",
+      "end": "2022-06"
+    }
+  ],
+  "certifications": [
+    {
+      "id": "dp203",
+      "name": "DP-203 - Data Engineer Associate",
+      "issuer": "Microsoft",
+      "tracks": [
+        "data_eng",
+        "data_analyst",
+        "data_sci",
+        "research_data",
+        "ai_eng"
+      ]
+    },
+    {
+      "id": "powerbi",
+      "name": "Microsoft Power BI - Business Intelligence for Beginners",
+      "issuer": "Udemy (Microsoft)",
+      "tracks": [
+        "data_analyst",
+        "data_eng",
+        "research_data"
+      ]
+    },
+    {
+      "id": "mcp_advanced",
+      "name": "Model Context Protocol: Advanced Topics",
+      "issuer": "Anthropic",
+      "tracks": [
+        "ai_eng"
+      ]
+    },
+    {
+      "id": "mcp_intro",
+      "name": "Introduction to Model Context Protocol",
+      "issuer": "Anthropic",
+      "tracks": [
+        "ai_eng"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "aura",
+      "name": "AURA v2",
+      "subtitle": "Retrieval-augmented conversational system for emotional support",
+      "status": "in_progress",
+      "stack": [
+        "Python",
+        "RAG",
+        "vector retrieval",
+        "LLM-as-judge evaluation",
+        "local inference"
+      ],
+      "tracks": [
+        "ai_eng",
+        "research_data",
+        "data_sci"
+      ],
+      "bullets": [
+        {
+          "id": "aura_corpus",
+          "priority": 5,
+          "tags": [
+            "data_engineering",
+            "nlp",
+            "corpus"
+          ],
+          "text": "Engineered a validated 50-70k-turn training corpus, harmonizing four heterogeneous public datasets into a unified JSONL schema with shared parser utilities and a single strategy label taxonomy."
+        },
+        {
+          "id": "aura_quality",
+          "priority": 5,
+          "tags": [
+            "data_quality",
+            "annotation",
+            "statistics",
+            "evaluation"
+          ],
+          "text": "Designed tiered data quality gates with a 300-example manually validated gold set and measured annotation reliability using Cohen's kappa inter-annotator agreement between two independent LLM labelers."
+        },
+        {
+          "id": "aura_eval",
+          "priority": 4,
+          "tags": [
+            "evaluation",
+            "failure_analysis",
+            "responsible_ai"
+          ],
+          "text": "Building a reproducible evaluation harness with adversarial, clean, and messy test buckets, documenting failure modes and known limitations in a model card rather than reporting headline scores alone."
+        },
+        {
+          "id": "aura_tradeoffs",
+          "priority": 4,
+          "tags": [
+            "judgment",
+            "ml_engineering"
+          ],
+          "text": "Documented architecture tradeoffs including selecting a quantized large model over a fine-tuned smaller one to preserve multi-turn context, and abandoning fine-tuning after measured quality degradation."
+        }
+      ]
+    },
+    {
+      "id": "resume_factory",
+      "name": "Resume Factory",
+      "subtitle": "Local-first resume and cover letter automation",
+      "status": "in_progress",
+      "stack": [
+        "Python",
+        "LangGraph",
+        "local LLM inference"
+      ],
+      "tracks": [
+        "ai_eng"
+      ],
+      "bullets": [
+        {
+          "id": "rf_1",
+          "priority": 4,
+          "tags": [
+            "agentic",
+            "llm_systems"
+          ],
+          "text": "Building a local-first document automation tool that composes tailored resumes from a structured content store, with provenance constraints on every factual claim and a human review step before output."
+        }
+      ]
+    },
+    {
+      "id": "redline",
+      "name": "Project Redline",
+      "subtitle": "Local LLM stress-test and evolutionary benchmark harness",
+      "status": "in_progress",
+      "stack": [
+        "Python",
+        "LM Studio",
+        "Qwen",
+        "EvalPlus"
+      ],
+      "tracks": [
+        "ai_eng"
+      ],
+      "bullets": [
+        {
+          "id": "redline_1",
+          "priority": 4,
+          "tags": [
+            "benchmarking",
+            "systems",
+            "local_inference",
+            "evaluation"
+          ],
+          "text": "Built a three-phase benchmark harness measuring local LLM throughput and hardware saturation on Apple Silicon, instrumenting token-level timing and thermal telemetry alongside EvalPlus code-solving accuracy."
+        },
+        {
+          "id": "redline_2",
+          "priority": 3,
+          "tags": [
+            "debugging",
+            "measurement_integrity"
+          ],
+          "text": "Caught and corrected instrumentation defects including a timer corrupted by reasoning-phase token emission and a silent validation fallback masking a 53x measurement discrepancy."
+        }
+      ]
+    },
+    {
+      "id": "storygen",
+      "name": "Illustrated Story Generator",
+      "subtitle": "Fully local text-to-illustrated-story pipeline",
+      "status": "in_progress",
+      "stack": [
+        "Python",
+        "Reflex",
+        "Qwen3 32B",
+        "Flux.1 Kontext"
+      ],
+      "tracks": [
+        "ai_eng"
+      ],
+      "bullets": [
+        {
+          "id": "storygen_1",
+          "priority": 2,
+          "tags": [
+            "multimodal",
+            "local_inference",
+            "state_management"
+          ],
+          "text": "Built a fully local generation pipeline pairing a 32B language model with identity-preserving image generation, using a versioned character registry to maintain visual continuity across chapters."
+        }
+      ]
+    }
+  ],
+  "activities": [
+    {
+      "id": "ai_tinkerers",
+      "title": "Volunteer - AI Tinkerers",
+      "dates": "Apr 2025 - Present",
+      "tracks": [
+        "ai_eng",
+        "data_sci"
+      ]
+    },
+    {
+      "id": "class_rep",
+      "title": "Class Representative",
+      "dates": "2018 - 2022",
+      "tracks": [
+        "ai_eng",
+        "data_eng",
+        "data_analyst",
+        "data_sci",
+        "research_data"
+      ]
+    },
+    {
+      "id": "gdc",
+      "title": "Technical Lead - Google Developer Club",
+      "dates": "Sep 2020 - Dec 2020",
+      "tracks": [
+        "ai_eng",
+        "data_eng",
+        "data_analyst",
+        "data_sci",
+        "research_data"
+      ]
+    }
+  ]
+}

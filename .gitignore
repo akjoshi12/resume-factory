@@ -1,0 +1,15 @@
+assets/external/
+*.db
+.states
+.web
+*.py[cod]
+.venv/
+__pycache__/
+*.pyc
+.env
+.rfdata/
+.web/
+*.aux
+*.log
+*.out
+.DS_Store
