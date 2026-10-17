@@ -1,186 +1,144 @@
-<svg viewBox="0 0 1420 660" xmlns="http://www.w3.org/2000/svg" role="img"
-     aria-label="Resume Factory v2 runtime architecture: a user drives the Reflex UI, which calls a service layer that invokes a LangGraph state machine; the graph reads the job posting and master resume, calls the local LLM, renders through pdflatex, and writes checkpoints and PDFs to SQLite and disk, all inside a tailnet-only local machine boundary.">
-  <title>Resume Factory v2 — runtime architecture</title>
-  <defs>
-    <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0,0 L8,4 L0,8 z" class="arrowfill" />
-    </marker>
-  </defs>
-  <style>
-    .bgrect { fill: #ffffff; }
-    .card { fill: #f6f8fa; stroke: #d0d7de; stroke-width: 1.2; }
-    .arrowfill { fill: #1f2328; }
-    .title { fill: #1f2328; font: 600 13px system-ui, sans-serif; }
-    .h1 { fill: #1f2328; font: 600 16px system-ui, sans-serif; }
-    .sub { fill: #57606a; font: 10.5px system-ui, sans-serif; }
-    .tag { fill: #57606a; font: italic 9px system-ui, sans-serif; }
-    .lbl { fill: #57606a; font: 10px system-ui, sans-serif; }
-    .lblbg { fill: #ffffff; opacity: 0.92; }
-    .line { stroke: #6e7781; stroke-width: 1.4; fill: none; marker-end: url(#arrow); }
-    .line-emph { stroke: #1f2328; stroke-width: 2; fill: none; marker-end: url(#arrow); }
-    .line-dash { stroke: #57606a; stroke-width: 1.4; stroke-dasharray: 5 4; fill: none; marker-end: url(#arrow); }
-    .boundary-region { fill: none; stroke: #d0d7de; stroke-width: 1.4; stroke-dasharray: 6 5; }
-    .boundary-sec { fill: none; stroke: #9a6700; stroke-width: 1.4; stroke-dasharray: 3 4; }
-    .boundary-label { fill: #57606a; font: 600 10.5px system-ui, sans-serif; }
-    .legend-text { fill: #57606a; font: 10px system-ui, sans-serif; }
-    .acc-frontend { fill: #2563eb; }
-    .acc-backend { fill: #7c3aed; }
-    .acc-db { fill: #059669; }
-    .acc-ext { fill: #6e7781; }
-
-    @media (prefers-color-scheme: dark) {
-      .bgrect { fill: #0d1117; }
-      .card { fill: #161b22; stroke: #30363d; }
-      .arrowfill { fill: #e6edf3; }
-      .title { fill: #e6edf3; }
-      .h1 { fill: #e6edf3; }
-      .sub { fill: #8b949e; }
-      .tag { fill: #8b949e; }
-      .lbl { fill: #8b949e; }
-      .lblbg { fill: #0d1117; }
-      .line { stroke: #8b949e; }
-      .line-emph { stroke: #e6edf3; }
-      .line-dash { stroke: #8b949e; }
-      .boundary-region { stroke: #30363d; }
-      .boundary-sec { stroke: #d29922; }
-      .boundary-label { fill: #8b949e; }
-      .legend-text { fill: #8b949e; }
-      .acc-frontend { fill: #60a5fa; }
-      .acc-backend { fill: #a78bfa; }
-      .acc-db { fill: #34d399; }
-      .acc-ext { fill: #9198a1; }
-    }
-  </style>
-
-  <rect class="bgrect" x="0" y="0" width="1420" height="660" />
-  <text class="h1" x="10" y="26">Resume Factory v2 — runtime architecture</text>
-
-  <!-- legend -->
-  <g transform="translate(1010,20)">
-    <circle cx="0" cy="0" r="4" class="acc-frontend" /><text class="legend-text" x="10" y="4">frontend</text>
-    <circle cx="80" cy="0" r="4" class="acc-backend" /><text class="legend-text" x="90" y="4">backend</text>
-    <circle cx="150" cy="0" r="4" class="acc-db" /><text class="legend-text" x="160" y="4">data store</text>
-    <circle cx="230" cy="0" r="4" class="acc-ext" /><text class="legend-text" x="240" y="4">external / local process</text>
-  </g>
-
-  <!-- boundaries -->
-  <rect class="boundary-region" x="302" y="72" width="1106" height="576" rx="10" />
-  <text class="boundary-label" x="310" y="66">Local machine (offline-first)</text>
-
-  <rect class="boundary-sec" x="306" y="316" width="538" height="98" rx="8" />
-  <text class="boundary-label" x="316" y="310">Tailnet — UI + API only, no app login</text>
-
-  <!-- connections -->
-  <!-- user -> ui -->
-  <line class="line-emph" x1="180" y1="365" x2="316" y2="365" />
-  <rect class="lblbg" x="186" y="343" width="122" height="13" />
-  <text class="lbl" x="190" y="352">edits, approve, reject</text>
-
-  <!-- ui -> service -->
-  <line class="line-emph" x1="490" y1="365" x2="656" y2="365" />
-  <rect class="lblbg" x="501" y="343" width="108" height="13" />
-  <text class="lbl" x="505" y="352">actions + thread_id</text>
-
-  <!-- service -> graph -->
-  <line class="line-emph" x1="830" y1="365" x2="996" y2="365" />
-  <rect class="lblbg" x="841" y="343" width="98" height="13" />
-  <text class="lbl" x="845" y="352">invoke / resume()</text>
-
-  <!-- service -> db (dashed) -->
-  <line class="line-dash" x1="745" y1="400" x2="995" y2="556" />
-  <rect class="lblbg" x="786" y="471" width="172" height="13" />
-  <text class="lbl" x="790" y="480">Application, DraftVersion rows</text>
-
-  <!-- graph -> db -->
-  <line class="line" x1="1060" y1="413" x2="995" y2="556" />
-  <rect class="lblbg" x="1006" y="477" width="65" height="13" />
-  <text class="lbl" x="1010" y="486">checkpoints</text>
-
-  <!-- graph -> pdfs -->
-  <line class="line" x1="1160" y1="413" x2="1290" y2="556" />
-  <rect class="lblbg" x="1156" y="477" width="118" height="13" />
-  <text class="lbl" x="1160" y="486">final resume + cover</text>
-
-  <!-- graph -> llm -->
-  <line class="line" x1="1030" y1="317" x2="755" y2="164" />
-  <rect class="lblbg" x="811" y="253" width="122" height="13" />
-  <text class="lbl" x="815" y="262">ingest, tailor, cover</text>
-
-  <!-- graph -> master -->
-  <line class="line" x1="1105" y1="317" x2="1020" y2="164" />
-  <rect class="lblbg" x="981" y="229" width="157" height="13" />
-  <text class="lbl" x="985" y="238">selects track-tagged bullets</text>
-
-  <!-- graph -> latex -->
-  <line class="line" x1="1180" y1="317" x2="1285" y2="164" />
-  <rect class="lblbg" x="1136" y="253" width="137" height="13" />
-  <text class="lbl" x="1140" y="262">render, trim, parse-back</text>
-
-  <!-- jd -> graph (elbow, routed through the open band between the two rows) -->
-  <polyline class="line" points="100,160 100,245 1000,245 1000,331" />
-  <rect class="lblbg" x="296" y="228" width="197" height="13" />
-  <text class="lbl" x="300" y="237">fetched best-effort via trafilatura</text>
-
-  <!-- nodes -->
-  <!-- jd -->
-  <rect class="card" x="20" y="90" width="160" height="70" rx="8" />
-  <rect class="acc-ext" x="20" y="90" width="4" height="70" rx="2" />
-  <text class="title" x="100" y="118" text-anchor="middle">Job posting</text>
-  <text class="sub" x="100" y="136" text-anchor="middle">fetched URL or pasted text</text>
-
-  <!-- user -->
-  <rect class="card" x="20" y="330" width="160" height="70" rx="8" />
-  <rect class="acc-ext" x="20" y="330" width="4" height="70" rx="2" />
-  <text class="title" x="100" y="358" text-anchor="middle">User</text>
-  <text class="sub" x="100" y="376" text-anchor="middle">edits, approves, rejects</text>
-
-  <!-- ui -->
-  <rect class="card" x="320" y="330" width="170" height="70" rx="8" />
-  <rect class="acc-frontend" x="320" y="330" width="4" height="70" rx="2" />
-  <text class="title" x="405" y="352" text-anchor="middle">Reflex UI</text>
-  <text class="sub" x="405" y="368" text-anchor="middle">dashboard, new, review, detail</text>
-  <text class="tag" x="405" y="384" text-anchor="middle">holds thread_id only</text>
-
-  <!-- service -->
-  <rect class="card" x="660" y="330" width="170" height="70" rx="8" />
-  <rect class="acc-backend" x="660" y="330" width="4" height="70" rx="2" />
-  <text class="title" x="745" y="358" text-anchor="middle">Service layer</text>
-  <text class="sub" x="745" y="376" text-anchor="middle">sync bridge via to_thread</text>
-
-  <!-- graph -->
-  <rect class="card" x="1000" y="317" width="210" height="96" rx="8" />
-  <rect class="acc-backend" x="1000" y="317" width="4" height="96" rx="2" />
-  <text class="title" x="1105" y="347" text-anchor="middle">LangGraph graph</text>
-  <text class="sub" x="1105" y="367" text-anchor="middle">12 nodes, 2 human gates</text>
-  <text class="tag" x="1105" y="385" text-anchor="middle">SqliteSaver checkpoints</text>
-
-  <!-- llm -->
-  <rect class="card" x="660" y="90" width="190" height="70" rx="8" />
-  <rect class="acc-ext" x="660" y="90" width="4" height="70" rx="2" />
-  <text class="title" x="755" y="118" text-anchor="middle">Qwen3-27B</text>
-  <text class="sub" x="755" y="136" text-anchor="middle">local, LM Studio :1234/v1</text>
-
-  <!-- master -->
-  <rect class="card" x="920" y="90" width="200" height="70" rx="8" />
-  <rect class="acc-db" x="920" y="90" width="4" height="70" rx="2" />
-  <text class="title" x="1020" y="118" text-anchor="middle">master_resume.json</text>
-  <text class="sub" x="1020" y="136" text-anchor="middle">track-tagged bullets, skills</text>
-
-  <!-- latex -->
-  <rect class="card" x="1190" y="90" width="190" height="70" rx="8" />
-  <rect class="acc-ext" x="1190" y="90" width="4" height="70" rx="2" />
-  <text class="title" x="1285" y="118" text-anchor="middle">pdflatex</text>
-  <text class="sub" x="1285" y="136" text-anchor="middle">Jinja to TeX to PDF</text>
-
-  <!-- db -->
-  <rect class="card" x="900" y="560" width="190" height="70" rx="8" />
-  <rect class="acc-db" x="900" y="560" width="4" height="70" rx="2" />
-  <text class="title" x="995" y="588" text-anchor="middle">SQLite</text>
-  <text class="sub" x="995" y="606" text-anchor="middle">checkpoints + application rows</text>
-
-  <!-- pdfs -->
-  <rect class="card" x="1190" y="560" width="200" height="70" rx="8" />
-  <rect class="acc-db" x="1190" y="560" width="4" height="70" rx="2" />
-  <text class="title" x="1290" y="588" text-anchor="middle">PDF artifacts</text>
-  <text class="sub" x="1290" y="606" text-anchor="middle">.rfdata/out, served at /api/pdf</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 990" width="1800" height="990" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" role="img" aria-label="Resume Factory v2 architecture: you reach the Reflex UI over Tailscale; a six-stage LangGraph pipeline (quick scan, tailor, verify claims, render and score, human review, cover letter) runs on your Mac against a local LLM, master_resume.json, pdflatex and SQLite, kept alive by launchd.">
+<title>Resume Factory v2 — architecture</title>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/></marker><marker id="aho" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f76b15"/></marker><radialGradient id="glow" cx="85%" cy="0%" r="70%"><stop offset="0" stop-color="#f76b15" stop-opacity="0.16"/><stop offset="1" stop-color="#f76b15" stop-opacity="0"/></radialGradient></defs>
+<rect x="0" y="0" width="1800" height="990" rx="28" fill="#0b1220" stroke="none" stroke-width="0" />
+<rect x="0" y="0" width="1800" height="990" rx="28" fill="url(#glow)" stroke="none" stroke-width="0" />
+<text x="60" y="66" font-size="34" fill="#e5e7eb" font-weight="800" text-anchor="start">Resume Factory v2</text>
+<text x="60" y="98" font-size="17" fill="#94a3b8" font-weight="400" text-anchor="start">Tailored resumes and cover letters that never invent a fact. Runs entirely on your Mac.</text>
+<rect x="70" y="128" width="250" height="66" rx="14" fill="#16213a" stroke="#3b4a6b" stroke-width="1.5" />
+<text x="195" y="157" font-size="19" fill="#e5e7eb" font-weight="700" text-anchor="middle">You</text>
+<text x="195" y="180" font-size="13" fill="#94a3b8" font-weight="400" text-anchor="middle">laptop or phone</text>
+<line x1="195" y1="194" x2="195" y2="266" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+<text x="212" y="222" font-size="13" fill="#94a3b8" font-weight="400" text-anchor="start">Tailscale · private network, no login</text>
+<rect x="40" y="238" width="1720" height="712" rx="26" fill="none" stroke="#3b4a6b" stroke-width="1.5" stroke-dasharray="7 7"/>
+<rect x="1428" y="226" width="318" height="24" rx="12" fill="#0b1220"/>
+<text x="1735" y="243" font-size="13" fill="#94a3b8" font-weight="700" text-anchor="end" letter-spacing="1.5">YOUR MAC — nothing leaves this box</text>
+<rect x="70" y="268" width="250" height="92" rx="14" fill="#111a2e" stroke="#60a5fa" stroke-width="2" />
+<text x="195" y="302" font-size="19" fill="#e5e7eb" font-weight="700" text-anchor="middle">Reflex UI  :3210</text>
+<text x="195" y="326" font-size="13" fill="#94a3b8" font-weight="400" text-anchor="middle">dashboard · new · review</text>
+<text x="195" y="346" font-size="12" fill="#94a3b8" font-weight="400" text-anchor="middle">3 skins: minimal · glass · skeuo</text>
+<line x1="195" y1="360" x2="195" y2="424" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+<text x="212" y="392" font-size="13" fill="#94a3b8" font-weight="400" text-anchor="start">start · resume · decide</text>
+<text x="360" y="306" font-size="14" fill="#94a3b8" font-weight="400" text-anchor="start">The UI holds only a thread id.</text>
+<text x="360" y="328" font-size="14" fill="#94a3b8" font-weight="400" text-anchor="start">The pipeline owns all state, checkpointed after every step.</text>
+<rect x="1000" y="266" width="720" height="104" rx="14" fill="#0e1729" stroke="#24314f" stroke-width="1.5" />
+<text x="1024" y="296" font-size="17" fill="#e5e7eb" font-weight="700" text-anchor="start">↻  Always on — launchd</text>
+<text x="1696" y="296" font-size="13" fill="#94a3b8" font-weight="400" text-anchor="end">starts at login · restarts on crash</text>
+<circle cx="1032" cy="324" r="5" fill="#34d399"/>
+<text x="1046" y="329" font-size="13" fill="#34d399" font-weight="700" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">com.resumefactory.app</text>
+<text x="1290" y="329" font-size="13" fill="#94a3b8" font-weight="400" text-anchor="start">Reflex UI + API, prod mode, one port</text>
+<circle cx="1032" cy="354" r="5" fill="#34d399"/>
+<text x="1046" y="359" font-size="13" fill="#34d399" font-weight="700" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">com.resumefactory.lmstudio</text>
+<text x="1290" y="359" font-size="13" fill="#94a3b8" font-weight="400" text-anchor="start">local model server</text>
+<text x="1720" y="414" font-size="13" fill="#94a3b8" font-weight="400" text-anchor="end">LangGraph · 12 nodes · 2 human gates</text>
+<text x="1458" y="414" font-size="13" fill="#f76b15" font-weight="800" text-anchor="end" letter-spacing="2">THE PIPELINE</text>
+<rect x="70" y="430" width="250" height="240" rx="16" fill="#111a2e" stroke="#24314f" stroke-width="1.5" />
+<circle cx="104" cy="466" r="16" fill="#1f2a44"/>
+<text x="104" y="471.5" font-size="15" fill="#e5e7eb" font-weight="800" text-anchor="middle">1</text>
+<text x="130" y="473" font-size="20" fill="#e5e7eb" font-weight="750" text-anchor="start">Quick scan</text>
+<text x="94" y="512" font-size="12" fill="#7dd3fc" font-weight="800" text-anchor="start" letter-spacing="1.2">SHOULD I APPLY?</text>
+<text x="94" y="542" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">match % + Apply / Stretch /</text>
+<text x="94" y="565" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">Skip verdict</text>
+<text x="94" y="588" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">strengths, gaps, missing tools</text>
+<rect x="94" y="626" width="43" height="24" rx="12" fill="#a78bfa" fill-opacity="0.16"/>
+<text x="115.4" y="642.5" font-size="12" fill="#a78bfa" font-weight="700" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">LLM</text>
+<rect x="144.8" y="626" width="66" height="24" rx="12" fill="#34d399" fill-opacity="0.16"/>
+<text x="177.60000000000002" y="642.5" font-size="12" fill="#34d399" font-weight="700" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">master</text>
+<line x1="322" y1="550.0" x2="348" y2="550.0" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="350" y="430" width="250" height="240" rx="16" fill="#111a2e" stroke="#24314f" stroke-width="1.5" />
+<circle cx="384" cy="466" r="16" fill="#1f2a44"/>
+<text x="384" y="471.5" font-size="15" fill="#e5e7eb" font-weight="800" text-anchor="middle">2</text>
+<text x="410" y="473" font-size="20" fill="#e5e7eb" font-weight="750" text-anchor="start">Tailor</text>
+<text x="374" y="512" font-size="12" fill="#7dd3fc" font-weight="800" text-anchor="start" letter-spacing="1.2">SELECT + REPHRASE</text>
+<text x="374" y="542" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">picks bullets from your</text>
+<text x="374" y="565" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">master resume and rewrites</text>
+<text x="374" y="588" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">them for the posting</text>
+<rect x="374" y="626" width="43" height="24" rx="12" fill="#a78bfa" fill-opacity="0.16"/>
+<text x="395.4" y="642.5" font-size="12" fill="#a78bfa" font-weight="700" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">LLM</text>
+<rect x="424.8" y="626" width="66" height="24" rx="12" fill="#34d399" fill-opacity="0.16"/>
+<text x="457.6" y="642.5" font-size="12" fill="#34d399" font-weight="700" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">master</text>
+<line x1="602" y1="550.0" x2="628" y2="550.0" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="630" y="430" width="250" height="240" rx="16" fill="#111a2e" stroke="#24314f" stroke-width="1.5" />
+<circle cx="664" cy="466" r="16" fill="#1f2a44"/>
+<text x="664" y="471.5" font-size="15" fill="#e5e7eb" font-weight="800" text-anchor="middle">3</text>
+<text x="690" y="473" font-size="20" fill="#e5e7eb" font-weight="750" text-anchor="start">Verify claims</text>
+<text x="654" y="512" font-size="12" fill="#7dd3fc" font-weight="800" text-anchor="start" letter-spacing="1.2">NO INVENTED FACTS</text>
+<text x="654" y="542" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">every number, name and tool</text>
+<text x="654" y="565" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">checked against the source</text>
+<text x="654" y="588" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">fails → retry, then revert</text>
+<rect x="654" y="626" width="66" height="24" rx="12" fill="#34d399" fill-opacity="0.16"/>
+<text x="686.8" y="642.5" font-size="12" fill="#34d399" font-weight="700" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">master</text>
+<line x1="882" y1="550.0" x2="908" y2="550.0" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="910" y="430" width="250" height="240" rx="16" fill="#111a2e" stroke="#24314f" stroke-width="1.5" />
+<circle cx="944" cy="466" r="16" fill="#1f2a44"/>
+<text x="944" y="471.5" font-size="15" fill="#e5e7eb" font-weight="800" text-anchor="middle">4</text>
+<text x="970" y="473" font-size="20" fill="#e5e7eb" font-weight="750" text-anchor="start">Render + score</text>
+<text x="934" y="512" font-size="12" fill="#7dd3fc" font-weight="800" text-anchor="start" letter-spacing="1.2">ONE PAGE, PROVEN</text>
+<text x="934" y="542" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">Jinja → LaTeX → PDF</text>
+<text x="934" y="565" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">ATS match 45/35/10/10</text>
+<text x="934" y="588" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">parse-back with 2 extractors</text>
+<rect x="934" y="626" width="58" height="24" rx="12" fill="#fb923c" fill-opacity="0.16"/>
+<text x="963.0" y="642.5" font-size="12" fill="#fb923c" font-weight="700" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">LaTeX</text>
+<line x1="1162" y1="550.0" x2="1188" y2="550.0" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="1190" y="430" width="250" height="240" rx="16" fill="#111a2e" stroke="#f76b15" stroke-width="2" />
+<circle cx="1224" cy="466" r="16" fill="#f76b15"/>
+<text x="1224" y="471.5" font-size="15" fill="#0b1220" font-weight="800" text-anchor="middle">5</text>
+<text x="1250" y="473" font-size="20" fill="#e5e7eb" font-weight="750" text-anchor="start">Review</text>
+<text x="1214" y="512" font-size="12" fill="#f76b15" font-weight="800" text-anchor="start" letter-spacing="1.2">YOU DECIDE</text>
+<text x="1214" y="542" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">edit, approve or reject</text>
+<text x="1214" y="565" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">run pauses here — even</text>
+<text x="1214" y="588" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">for days, survives restarts</text>
+<rect x="1214" y="626" width="66" height="24" rx="12" fill="#60a5fa" fill-opacity="0.16"/>
+<text x="1246.8" y="642.5" font-size="12" fill="#60a5fa" font-weight="700" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">SQLite</text>
+<line x1="1442" y1="550.0" x2="1468" y2="550.0" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+<text x="1420" y="473" font-size="18" fill="#e5e7eb" font-weight="400" text-anchor="end">✋</text>
+<rect x="1470" y="430" width="250" height="240" rx="16" fill="#111a2e" stroke="#f76b15" stroke-width="2" />
+<circle cx="1504" cy="466" r="16" fill="#f76b15"/>
+<text x="1504" y="471.5" font-size="15" fill="#0b1220" font-weight="800" text-anchor="middle">6</text>
+<text x="1530" y="473" font-size="20" fill="#e5e7eb" font-weight="750" text-anchor="start">Cover letter</text>
+<text x="1494" y="512" font-size="12" fill="#f76b15" font-weight="800" text-anchor="start" letter-spacing="1.2">SAME CHECKS</text>
+<text x="1494" y="542" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">drafted from the approved</text>
+<text x="1494" y="565" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">resume, second review gate</text>
+<text x="1494" y="588" font-size="14" fill="#cbd5e1" font-weight="400" text-anchor="start">→ final PDFs</text>
+<rect x="1494" y="626" width="43" height="24" rx="12" fill="#a78bfa" fill-opacity="0.16"/>
+<text x="1515.4" y="642.5" font-size="12" fill="#a78bfa" font-weight="700" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">LLM</text>
+<rect x="1544.8" y="626" width="58" height="24" rx="12" fill="#fb923c" fill-opacity="0.16"/>
+<text x="1573.8" y="642.5" font-size="12" fill="#fb923c" font-weight="700" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">LaTeX</text>
+<text x="1700" y="473" font-size="18" fill="#e5e7eb" font-weight="400" text-anchor="end">✋</text>
+<rect x="683" y="680" width="144" height="26" rx="13" fill="#1f2a44"/>
+<text x="755" y="697.5" font-size="12.5" fill="#cbd5e1" font-weight="600" text-anchor="middle">↺ retry up to 3×</text>
+<rect x="952" y="680" width="167" height="26" rx="13" fill="#1f2a44"/>
+<text x="1035" y="697.5" font-size="12.5" fill="#cbd5e1" font-weight="600" text-anchor="middle">↺ trim until 1 page</text>
+<path d="M1315,670 L1315,722 Q1315,732 1305,732 L485,732 Q475,732 475,722 L475,674" fill="none" stroke="#f76b15" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#aho)"/>
+<rect x="745.0" y="720" width="300" height="24" fill="#0b1220"/>
+<text x="895.0" y="737" font-size="13" fill="#f76b15" font-weight="700" text-anchor="middle">reject with feedback → re-tailor</text>
+<text x="70" y="784" font-size="13" fill="#f76b15" font-weight="800" text-anchor="start" letter-spacing="2">RUNS ON</text>
+<rect x="70" y="800" width="393" height="118" rx="14" fill="#111a2e" stroke="#24314f" stroke-width="1.5" />
+<rect x="70" y="800" width="6" height="118" rx="3" fill="#a78bfa"/>
+<rect x="94" y="818" width="43" height="24" rx="12" fill="#a78bfa" fill-opacity="0.16"/>
+<text x="115.4" y="834.5" font-size="12" fill="#a78bfa" font-weight="700" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">LLM</text>
+<text x="94" y="868" font-size="18" fill="#e5e7eb" font-weight="700" text-anchor="start">Local LLM</text>
+<text x="94" y="892" font-size="13.5" fill="#94a3b8" font-weight="400" text-anchor="start">LM Studio · Qwen3-27B</text>
+<text x="94" y="910" font-size="13.5" fill="#94a3b8" font-weight="400" text-anchor="start">OpenAI-style gateway optional</text>
+<rect x="489" y="800" width="393" height="118" rx="14" fill="#111a2e" stroke="#24314f" stroke-width="1.5" />
+<rect x="489" y="800" width="6" height="118" rx="3" fill="#34d399"/>
+<rect x="513" y="818" width="66" height="24" rx="12" fill="#34d399" fill-opacity="0.16"/>
+<text x="545.8" y="834.5" font-size="12" fill="#34d399" font-weight="700" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">master</text>
+<text x="513" y="868" font-size="18" fill="#e5e7eb" font-weight="700" text-anchor="start">master_resume.json</text>
+<text x="513" y="892" font-size="13.5" fill="#94a3b8" font-weight="400" text-anchor="start">single source of truth</text>
+<text x="513" y="910" font-size="13.5" fill="#94a3b8" font-weight="400" text-anchor="start">track-tagged bullets + skills</text>
+<rect x="908" y="800" width="393" height="118" rx="14" fill="#111a2e" stroke="#24314f" stroke-width="1.5" />
+<rect x="908" y="800" width="6" height="118" rx="3" fill="#fb923c"/>
+<rect x="932" y="818" width="58" height="24" rx="12" fill="#fb923c" fill-opacity="0.16"/>
+<text x="961.0" y="834.5" font-size="12" fill="#fb923c" font-weight="700" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">LaTeX</text>
+<text x="932" y="868" font-size="18" fill="#e5e7eb" font-weight="700" text-anchor="start">pdflatex</text>
+<text x="932" y="892" font-size="13.5" fill="#94a3b8" font-weight="400" text-anchor="start">TLCresume.sty templates</text>
+<text x="932" y="910" font-size="13.5" fill="#94a3b8" font-weight="400" text-anchor="start">pdftotext for parse-back</text>
+<rect x="1327" y="800" width="393" height="118" rx="14" fill="#111a2e" stroke="#24314f" stroke-width="1.5" />
+<rect x="1327" y="800" width="6" height="118" rx="3" fill="#60a5fa"/>
+<rect x="1351" y="818" width="66" height="24" rx="12" fill="#60a5fa" fill-opacity="0.16"/>
+<text x="1383.8" y="834.5" font-size="12" fill="#60a5fa" font-weight="700" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">SQLite</text>
+<text x="1351" y="868" font-size="18" fill="#e5e7eb" font-weight="700" text-anchor="start">SQLite</text>
+<text x="1351" y="892" font-size="13.5" fill="#94a3b8" font-weight="400" text-anchor="start">graph checkpoints + applications</text>
+<text x="1351" y="910" font-size="13.5" fill="#94a3b8" font-weight="400" text-anchor="start">PDFs in .rfdata/out</text>
 </svg>

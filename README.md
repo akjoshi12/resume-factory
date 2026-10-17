@@ -14,7 +14,7 @@ https://github.com/user-attachments/assets/8515c11b-bc73-410d-8b46-9cbd97a972e5
 
 ## Architecture
 
-![Runtime architecture: Reflex UI to service layer to LangGraph, with the graph reaching out to the local LLM, master_resume.json, pdflatex, SQLite, and PDF output](diagram.svg)
+![Architecture: you reach the Reflex UI over Tailscale; a six-stage pipeline (quick scan, tailor, verify claims, render + score, human review, cover letter) runs on your Mac against a local LLM, master_resume.json, pdflatex and SQLite, kept alive by launchd](diagram.svg)
 
 ## What it guarantees
 
