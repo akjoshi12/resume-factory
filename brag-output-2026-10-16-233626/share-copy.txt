@@ -1,0 +1,2 @@
+Resume Factory v2 is live on my Mac.
+Quick scan tells you if a job is worth applying to, the ATS match shows its working (45/35/10/10), every claim is still checked against my real history, and it now runs as an always-on launchd service I can open from my phone.
