@@ -6,7 +6,10 @@ graph checkpoints.
 
 ## Demo
 
-https://github.com/user-attachments/assets/6d7b
+
+
+https://github.com/user-attachments/assets/8515c11b-bc73-410d-8b46-9cbd97a972e5
+
 
 
 ## Architecture
