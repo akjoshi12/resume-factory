@@ -25,8 +25,12 @@ _ESCAPES = [
 
 _SMART = {
     "–": "--", "—": "---", "‘": "`", "’": "'",
-    "“": "``", "”": "''", "…": r"\ldots{}", " ": "~",
+    "“": "``", "”": "''", " ": "~",
 }
+
+# Characters that need a LaTeX command. Swapped to a placeholder before escaping and
+# restored after, so the command's own backslash and braces are not escaped away.
+_COMMANDS = {"…": r"\ldots{}", "→": r"\textrightarrow{}"}
 
 _PAGES_RE = re.compile(r"Output written on .*?\((\d+) pages?,")
 _TEXERR_RE = re.compile(r"^! (.+)$", re.MULTILINE)
@@ -39,6 +43,8 @@ def tex_escape(text: str) -> str:
     out = text
     for ch, rep in _SMART.items():
         out = out.replace(ch, rep)
+    for i, ch in enumerate(_COMMANDS):
+        out = out.replace(ch, f"\x00{i}\x00")
     # Split on the backslash replacement so we never double-escape it.
     parts = out.split("\\")
     escaped = []
@@ -46,7 +52,10 @@ def tex_escape(text: str) -> str:
         for ch, rep in _ESCAPES[1:]:
             part = part.replace(ch, rep)
         escaped.append(part)
-    return r"\textbackslash{}".join(escaped)
+    out = r"\textbackslash{}".join(escaped)
+    for i, rep in enumerate(_COMMANDS.values()):
+        out = out.replace(f"\x00{i}\x00", rep)
+    return out
 
 
 def make_env(templates_dir: Path | None = None) -> Environment:

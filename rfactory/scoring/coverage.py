@@ -21,6 +21,24 @@ STOPWORDS = {
     "excellent", "including", "etc", "new", "well", "help", "make", "across", "plus",
 }
 
+# Words a posting uses to describe the candidate rather than the work. Counting them
+# made "exceptional", "comfort" and "similar" a third of the denominator, so a resume
+# that hit every tool and practice still read as 40%.
+SOFT = {
+    "like", "similar", "related", "equivalent", "practical", "exceptional", "comfort",
+    "familiarity", "foundational", "understanding", "hands-on", "hands", "ensure",
+    "field", "degree", "bachelor", "master", "deep", "solid", "proven", "ideal",
+    "preferred", "required", "requirement", "asset", "nice", "have", "bring", "seeking",
+    "looking", "join", "able", "knowledge", "skill", "skills", "background", "level",
+    "early", "career", "momentum", "relentless", "dedication", "rigor", "superpower",
+    "world-class", "innovative", "seamless", "vital", "pristine", "clear", "clean",
+    "high", "highly", "relevant", "various", "multiple", "environment", "environments",
+    "concept", "concepts", "navigating", "guided", "supervision", "day", "daily",
+    "deliver", "create", "write", "build", "implement", "maintain", "execute", "support",
+    "perform", "develop", "drive", "own", "use", "need", "needs", "set", "based",
+    "least", "minimum", "one", "two", "three", "time", "best", "real", "world",
+}
+
 
 def terms(text: str, *, min_length: int = 3) -> set[str]:
     return {
@@ -28,6 +46,27 @@ def terms(text: str, *, min_length: int = 3) -> set[str]:
         for token in _TOKEN.finditer(text)
         if len(token.group()) >= min_length and token.group().lower() not in STOPWORDS
     }
+
+
+def _stem(word: str) -> str:
+    """Crude on purpose: 'transformations' must meet 'transformation', 'validations'
+    'validation', 'pipelines' 'pipeline'. A real stemmer buys little on resume text."""
+    for suffix, keep in (("ies", "y"), ("ing", ""), ("s", "")):
+        if word.endswith(suffix) and len(word) - len(suffix) >= 4 and not word.endswith("ss"):
+            return word[: -len(suffix)] + keep
+    return word
+
+
+def keywords(text: str) -> set[str]:
+    """Stemmed content terms. Compounds count as their parts too, so 'Git-based' meets
+    'Git' and 'ELT/ETL' meets 'ETL'."""
+    out: set[str] = set()
+    for term in terms(text):
+        parts = [p for p in re.split(r"[-/]", term) if p]
+        for part in parts if len(parts) > 1 else [term]:
+            if len(part) >= 2 and part not in STOPWORDS and part not in SOFT:
+                out.add(_stem(part))
+    return out
 
 
 @dataclass(slots=True)
@@ -45,10 +84,10 @@ class CoverageReport:
 def score(jd_text: str, resume_text: str, *, focus: list[str] | None = None) -> CoverageReport:
     """focus narrows scoring to requirement phrases pulled out of the JD; without it,
     every non-stopword term in the JD counts, which is noisier but needs no model."""
-    wanted = {t for phrase in focus for t in terms(phrase)} if focus else terms(jd_text)
+    wanted = {t for phrase in focus for t in keywords(phrase)} if focus else keywords(jd_text)
     if not wanted:
         return CoverageReport()
-    have = terms(resume_text)
+    have = keywords(resume_text)
     matched = sorted(wanted & have)
     missing = sorted(wanted - have)
     return CoverageReport(matched=matched, missing=missing, score=len(matched) / len(wanted))

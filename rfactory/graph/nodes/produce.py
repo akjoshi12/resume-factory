@@ -7,10 +7,11 @@ from langgraph.types import interrupt
 from rfactory.config import settings
 from rfactory.graph.state import GraphState
 from rfactory.models.draft import ResumeDraft
+from rfactory.models.master import MasterResume
 from rfactory.render.fit import trim_once
 from rfactory.render.resume import render_pdf, render_tex
+from rfactory.scoring import ats, parseback
 from rfactory.scoring import coverage as coverage_mod
-from rfactory.scoring import parseback
 
 
 def _out_dir(state: GraphState) -> Path:
@@ -38,21 +39,22 @@ def render_resume(state: GraphState) -> dict:
 def route_after_render(state: GraphState) -> str:
     if state.get("pages", 0) <= settings.max_pages:
         return "score_resume"
-    if int(state.get("fit_attempts") or 0) >= 8:
+    if int(state.get("fit_attempts") or 0) >= settings.max_fit_retries:
         return "score_resume"  # give up trimming; the human sees the overflow
     return "trim"
 
 
 def trim(state: GraphState) -> dict:
     draft = ResumeDraft.model_validate(state["draft"])
-    removed = trim_once(draft, state.get("requirements"))
+    removed = trim_once(draft, state.get("requirements"), state.get("tools"))
     log = list(state.get("trim_log") or [])
     if removed:
         log.append(removed)
     return {
         "draft": draft.model_dump(),
         "trim_log": log,
-        "fit_attempts": int(state.get("fit_attempts") or 0) + (1 if removed else 8),
+        "fit_attempts": int(state.get("fit_attempts") or 0)
+        + (1 if removed else settings.max_fit_retries),
     }
 
 
@@ -66,7 +68,23 @@ def score_resume(state: GraphState) -> dict:
         report.text,
         focus=state.get("requirements") or None,
     )
+    posting = {
+        "requirements": state.get("requirements") or [],
+        "tools": state.get("tools") or [],
+        "phrases": state.get("keywords") or [],
+        "role_title": state.get("role_title", ""),
+    }
+    estimate = ats.estimate(report.text, parses=report.ok and not report.spacing_risk, **posting)
+    # The same formula over everything the candidate could truthfully put on the page:
+    # the score is read against this, not against 100.
+    master = MasterResume.load(settings.master_resume)
+    estimate["ceiling"] = ats.estimate(
+        f"{state.get('role_title', '')}\n{master.claimable_text()}", **posting
+    )["score"]
+    # The page can carry phrasing the raw material lacks, so never show "70 of 68".
+    estimate["ceiling"] = max(estimate["ceiling"], estimate["score"])
     return {
+        "ats": estimate,
         "coverage": {
             "score": cov.score,
             "matched": cov.matched,
@@ -93,6 +111,7 @@ def review_resume(state: GraphState) -> dict:
             "draft": state.get("draft"),
             "pages": state.get("pages"),
             "coverage": state.get("coverage"),
+            "ats": state.get("ats"),
             "parse": state.get("parse"),
             "violations": state.get("violations") or [],
             "trim_log": state.get("trim_log") or [],

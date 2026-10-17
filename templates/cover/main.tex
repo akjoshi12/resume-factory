@@ -3,14 +3,17 @@
 
 % EDIT info.tex, body.tex
 
-\documentclass[12pt]{letter}
+\documentclass[11pt]{letter}
 \usepackage[utf8]{inputenc}
 \usepackage[empty]{fullpage}
 \usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
-\usepackage{fontawesome5}
 \usepackage{eso-pic}
 \usepackage{charter}
+\usepackage[T1]{fontenc}
+\input{glyphtounicode}\pdfgentounicode=1
+% A word split across lines ("engage-ment") is two non-words to a keyword parser.
+\hyphenpenalty=10000\exhyphenpenalty=10000\sloppy
 
 \addtolength{\topmargin}{-0.5in}
 \addtolength{\textheight}{1.0in}
@@ -28,27 +31,21 @@
 
 % Header
 \begin{center}
-{\fontsize{28}{0}\selectfont\scshape \myname}
+{\fontsize{26}{30}\selectfont \myname}
 
-\href{mailto:\myemail}{\faEnvelope\enspace \myemail}\hfill
-\href{https://linkedin.com/in/\mylinkedin}{\faLinkedinIn\enspace linkedin.com/in/\mylinkedin}\hfill
-\href{tel:\myphone}{\faPhone\enspace \myphone}\hfill
-\faMapMarker\enspace \mylocation
+\href{mailto:\myemail}{\myemail} \textbar\ \href{https://linkedin.com/in/\mylinkedin}{linkedin.com/in/\mylinkedin} \textbar\ \href{tel:\myphone}{\myphone} \textbar\ \mylocation
 \end{center}
 
 \vspace{0.2in}
 
-% % Opening block
-% \today\\
-
-
-% Body
+% Body: the page is filled by the letter's length, not by spacing. The size only
+% steps down half a point if a long letter would otherwise spill onto page two.
 \vspace{-0.1in}\setlength\parindent{24pt}
+\fontsize{\coverpt}{\coverlead}\selectfont
 \noindent\input{body}
 
 % Closer
-\vspace{0.1in}
-\vfill
+\vspace{0.15in}
 
 \begin{flushright}
 \closer,

@@ -23,7 +23,7 @@ from rfactory.graph.build import compile_graph
 
 logger = logging.getLogger(__name__)
 
-RECURSION_LIMIT = 60
+RECURSION_LIMIT = 120  # two graph steps per trim, max_fit_retries trims
 
 _app = None
 
@@ -142,6 +142,8 @@ def _sync_from_state(application_id: str, state: dict[str, Any]) -> None:
             fields[column] = value
     if coverage := state.get("coverage"):
         fields["coverage"] = coverage.get("score")
+    if estimate := state.get("ats"):
+        fields["ats_score"] = estimate.get("score")
     if parse := state.get("parse"):
         fields["spacing_risk"] = bool(parse.get("spacing_risk"))
     if fields:

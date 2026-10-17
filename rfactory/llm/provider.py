@@ -24,8 +24,8 @@ import json
 import logging
 import re
 import time
-from dataclasses import dataclass, replace
 from collections.abc import Callable
+from dataclasses import dataclass, replace
 from typing import Any, Protocol, TypeVar
 
 from pydantic import BaseModel, ValidationError
@@ -101,7 +101,15 @@ def inline_refs(schema: dict[str, Any]) -> dict[str, Any]:
                 name = node["$ref"].rsplit("/", 1)[-1]
                 merged = {k: v for k, v in node.items() if k != "$ref"}
                 return {**resolve(defs.get(name, {})), **merged}
-            return {k: resolve(v) for k, v in node.items() if k != "$defs"}
+            out = {k: resolve(v) for k, v in node.items() if k != "$defs"}
+            # Every field here has a default, so pydantic marks none required and
+            # leaves extra keys open -- and the grammar then accepts {"": ""}. A local
+            # model took that six-token exit on most cover letters. Closing the object
+            # forces every field to be written.
+            if isinstance(out.get("properties"), dict):
+                out["required"] = list(out["properties"])
+                out["additionalProperties"] = False
+            return out
         if isinstance(node, list):
             return [resolve(item) for item in node]
         return node

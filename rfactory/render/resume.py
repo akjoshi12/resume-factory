@@ -15,7 +15,7 @@ from rfactory.models.master import Bullet, Experience, MasterResume, Project
 from rfactory.render.latex import CompileResult, compile_tex, make_env
 
 # Copied alongside the generated .tex at compile time.
-RESUME_AUX = ("TLCresume.sty", "_header.tex")
+RESUME_AUX = ("TLCresume.sty",)
 
 
 def _top(bullets: list[Bullet], n: int) -> list[Bullet]:
@@ -118,10 +118,25 @@ def render_pdf(draft: ResumeDraft) -> CompileResult:
 # -- cover letter -------------------------------------------------------------
 
 
+# 12pt body; half a point smaller only so a long letter is not cut to two pages.
+# Filling the page is the letter's job (its word count), never stretched spacing.
+# info.tex.j2 defaults to 12pt too, so a caller that skips this still renders.
+COVER_SIZES = (12.0, 11.5)
+
+
 def render_cover_pdf(draft: CoverLetterDraft) -> CompileResult:
+    result = None
+    for pt in COVER_SIZES:
+        result = _compile_cover(draft, pt)
+        if result.pages == 1:
+            break
+    return result
+
+
+def _compile_cover(draft: CoverLetterDraft, pt: float) -> CompileResult:
     """main.tex is static and \\input{info} + \\input{body}; we generate those two."""
     env = make_env()
-    ctx = draft.template_context()
+    ctx = draft.template_context() | {"layout_pt": pt, "layout_lead": round(pt * 1.24, 1)}
     main = (settings.templates_dir / "cover" / "main.tex").read_text(encoding="utf-8")
     return compile_tex(
         main,

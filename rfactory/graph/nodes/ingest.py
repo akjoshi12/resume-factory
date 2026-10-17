@@ -52,6 +52,8 @@ def ingest_jd(state: GraphState) -> dict:
         "company": state.get("company") or posting.company,
         "role_title": state.get("role_title") or posting.role_title,
         "requirements": posting.requirements,
+        "tools": posting.tools,
+        "keywords": posting.keywords,
         "errors": errors,
         "stage": "tailoring",
     }

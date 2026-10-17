@@ -17,6 +17,8 @@ class GraphState(TypedDict, total=False):
     company: str
     role_title: str
     requirements: list[str]
+    tools: list[str]
+    keywords: list[str]
 
     tailoring: dict[str, Any]
     draft: dict[str, Any]
@@ -31,6 +33,7 @@ class GraphState(TypedDict, total=False):
     resume_pdf_path: str
     pages: int
     coverage: dict[str, Any]
+    ats: dict[str, Any]
     parse: dict[str, Any]
 
     resume_feedback: str

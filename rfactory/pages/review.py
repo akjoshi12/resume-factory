@@ -74,6 +74,16 @@ def _signals() -> rx.Component:
         rx.vstack(
             rx.hstack(
                 rx.badge(f"{AppState.pages} page", color_scheme=rx.cond(AppState.over_length, "red", "green")),
+                rx.cond(
+                    AppState.ats_score >= 0,
+                    rx.badge(
+                        "ATS " + AppState.ats_score.to_string() + "%"
+                        + rx.cond(AppState.ats_ceiling >= 0,
+                                  " of best possible " + AppState.ats_ceiling.to_string() + "%",
+                                  ""),
+                        color_scheme=AppState.ats_colour, size="3",
+                    ),
+                ),
                 rx.badge(AppState.coverage_summary, variant="soft"),
                 rx.cond(AppState.parse_ok, rx.badge("parses", color_scheme="green"),
                         rx.badge("PARSE FAILURE", color_scheme="red")),
@@ -94,6 +104,23 @@ def _signals() -> rx.Component:
                     ),
                     icon="triangle_alert", color_scheme="red", width="100%",
                 ),
+            ),
+            rx.cond(
+                AppState.ats_score >= 0,
+                rx.text("ATS breakdown: " + AppState.ats_parts, size="1",
+                        color="var(--gray-11)"),
+            ),
+            rx.cond(
+                AppState.ats_phrases_missing.length() > 0,
+                rx.text("ATS keywords not on the resume: "
+                        + AppState.ats_phrases_missing.join(", "),
+                        size="1", color="var(--gray-11)"),
+            ),
+            rx.cond(
+                AppState.ats_tools_missing.length() > 0,
+                rx.text("Posting tools not on the resume (you have not used these, so they "
+                        "cap the score): " + AppState.ats_tools_missing.join(", "),
+                        size="1", color="var(--gray-11)"),
             ),
             rx.cond(
                 AppState.coverage_missing.length() > 0,

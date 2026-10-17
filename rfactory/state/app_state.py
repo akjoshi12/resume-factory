@@ -8,8 +8,9 @@ from typing import Any
 import reflex as rx
 from reflex.config import get_config
 
-from rfactory import service
+from rfactory import scan, service
 from rfactory.config import settings
+from rfactory.db.models import Outcome
 from rfactory.llm.provider import available_models
 from rfactory.models.master import MasterResume
 
@@ -65,6 +66,7 @@ class AppRow:
     stage: str = ""
     outcome: str = ""
     coverage: str = ""
+    ats: str = ""
     created: str = ""
     model: str = ""
 
@@ -72,6 +74,24 @@ class AppRow:
 class AppState(rx.State):
     # dashboard -------------------------------------------------------------
     applications: list[AppRow] = []
+    outcomes: list[str] = [o.value for o in Outcome]
+    # Tallied from each application's outcome, which you set per row once you hear back.
+    stat_total: int = 0
+    stat_waiting: int = 0
+    stat_interviews: int = 0
+    stat_rejected: int = 0
+
+    # quick scan
+    scanning: bool = False
+    scan_done: bool = False
+    scan_match: int = 0
+    scan_verdict: str = ""
+    scan_reason: str = ""
+    scan_strengths: list[str] = []
+    scan_gaps: list[str] = []
+    scan_tools_have: list[str] = []
+    scan_tools_missing: list[str] = []
+    scan_ats_ceiling: int = 0
 
     # new application -------------------------------------------------------
     tracks: list[str] = []
@@ -112,6 +132,11 @@ class AppState(rx.State):
     pages: int = 0
     coverage_summary: str = ""
     coverage_missing: list[str] = []
+    ats_score: int = -1
+    ats_ceiling: int = -1
+    ats_phrases_missing: list[str] = []
+    ats_parts: str = ""
+    ats_tools_missing: list[str] = []
     violations: list[str] = []
     notes: list[str] = []
     trim_log: list[str] = []
@@ -202,11 +227,62 @@ class AppState(rx.State):
                 stage=a.stage,
                 outcome=a.outcome,
                 coverage=f"{a.coverage:.0%}" if a.coverage is not None else "-",
+                ats=f"{a.ats_score}%" if a.ats_score is not None else "-",
                 created=a.created_at.strftime("%Y-%m-%d"),
                 model=a.llm_model or a.llm_provider or "-",
             )
             for a in service.list_applications()
         ]
+        outcomes = [a.outcome for a in self.applications]
+        self.stat_total = len(outcomes)
+        self.stat_waiting = outcomes.count(Outcome.APPLIED)
+        self.stat_interviews = sum(
+            outcomes.count(o) for o in (Outcome.SCREEN, Outcome.INTERVIEW, Outcome.OFFER)
+        )
+        self.stat_rejected = outcomes.count(Outcome.REJECTED)
+
+    @rx.event
+    def set_outcome(self, application_id: str, value: str):
+        service.update_application(application_id, outcome=value)
+        self.load_dashboard()
+
+    # -- quick scan ---------------------------------------------------------
+
+    @rx.event(background=True)
+    async def run_scan(self):
+        async with self:
+            if not self.jd_text.strip():
+                self.error = "Paste the job description to scan it."
+                return
+            self.scanning, self.scan_done, self.error = True, False, ""
+            text, provider, model = self.jd_text, self.provider, self.model
+        try:
+            result = await asyncio.to_thread(scan.quick_scan, text, provider, model)
+        except Exception as exc:
+            async with self:
+                self.scanning = False
+                self.error = f"{type(exc).__name__}: {exc}"
+            return
+        async with self:
+            self.scanning, self.scan_done = False, True
+            self.scan_match = result["match"]
+            self.scan_verdict = result["verdict"]
+            self.scan_reason = result["reason"]
+            self.scan_strengths = result["strengths"]
+            self.scan_gaps = result["gaps"]
+            self.scan_tools_have = result["tools_have"]
+            self.scan_tools_missing = result["tools_missing"]
+            self.scan_ats_ceiling = result["ats_ceiling"]
+            self.company = self.company or result["company"]
+            self.role_title = self.role_title or result["role_title"]
+
+    @rx.var
+    def scan_colour(self) -> str:
+        return "green" if self.scan_match >= 70 else "amber" if self.scan_match >= 50 else "red"
+
+    @rx.var
+    def ats_colour(self) -> str:
+        return "green" if self.ats_score >= 70 else "amber" if self.ats_score >= 50 else "red"
 
     # -- model picker -------------------------------------------------------
 
@@ -325,6 +401,14 @@ class AppState(rx.State):
             coverage = payload.get("coverage") or {}
             self.coverage_summary = coverage.get("summary", "")
             self.coverage_missing = list(coverage.get("missing") or [])[:25]
+            estimate = payload.get("ats") or {}
+            self.ats_score = int(estimate.get("score", -1))
+            self.ats_parts = "  ".join(
+                f"{k} {v}%" for k, v in (estimate.get("parts") or {}).items()
+            )
+            self.ats_tools_missing = list(estimate.get("tools_missing") or [])
+            self.ats_ceiling = int(estimate.get("ceiling", -1))
+            self.ats_phrases_missing = list(estimate.get("phrases_missing") or [])
             parse = payload.get("parse") or {}
             self.parse_ok = bool(parse.get("ok", True))
             self.spacing_risk = bool(parse.get("spacing_risk"))

@@ -3,7 +3,9 @@ import os
 import reflex as rx
 
 FRONTEND_PORT = 3210
-BACKEND_PORT = 8210
+# `reflex run --env prod` serves frontend and backend on one port and refuses to start
+# otherwise. The launchd agent sets RF_BACKEND_PORT=3210; dev keeps 8210.
+BACKEND_PORT = int(os.environ.get("RF_BACKEND_PORT", "8210"))
 
 # The frontend bundle is compiled with api_url baked in, so it must be an address the
 # BROWSER can reach -- not the server's own. Left as localhost, opening the app from a
@@ -23,5 +25,5 @@ config = rx.Config(
     # a .ts.net name is. Named explicitly rather than set to True.
     vite_allowed_hosts=[PUBLIC_HOST] if IS_REMOTE else False,
     # Declared explicitly: implicit Radix enablement is deprecated and removed in 1.0.
-    plugins=[rx.plugins.RadixThemesPlugin(), rx.plugins.SitemapPlugin()],
+    plugins=[rx.plugins.RadixThemesPlugin(theme=rx.theme(accent_color="orange", gray_color="slate")), rx.plugins.SitemapPlugin()],
 )

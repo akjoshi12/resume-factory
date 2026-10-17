@@ -1,59 +1,51 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{TLCresume}[11/19/21 resume package]
-% Author: Timmy Chan
+% Author: Timmy Chan. Trimmed for ATS parsing: no page-header content, no tables.
 
-% Assuming using "article" document class and letter sized paper.
 % FONT STUFF
-
-\RequirePackage[T1]{fontenc} %  Font encoding https://texfaq.org/FAQ-why-inp-font
+\RequirePackage[T1]{fontenc}
 \RequirePackage[default,semibold]{sourcesanspro}
-\RequirePackage[10pt]{moresize}
-\usepackage{anyfontsize}
-\RequirePackage{csquotes}
+\RequirePackage{anyfontsize}
+% Map every glyph (ligatures included) to Unicode so extracted text reads "fi", not a
+% private-use glyph that a parser drops.
+\input{glyphtounicode}
+\pdfgentounicode=1
+% Body size. 9.5pt fits a fifth bullet per role without dropping below what a recruiter
+% reads comfortably; the interword space is widened so lenient parsers that split words
+% on a 3pt gap do not run them together ("AzureDataFactory").
+\newcommand{\bodyfont}{\fontsize{9.5pt}{11.4pt}\selectfont\spaceskip=0.36em plus 0.12em minus 0.04em\relax}
 
 % MARGINS AND SPACING
-\RequirePackage[margin=.25in, top=.75in, bottom=.25in]{geometry} % Set Margins
-\raggedright % left align no indent
-\raggedbottom % top align no indent
+\RequirePackage[margin=0.4in, top=0.35in, bottom=0.35in]{geometry}
+\raggedright
+\raggedbottom
+\setlength{\parindent}{0pt}
 
 % COLOR
 \RequirePackage{xcolor}
-\definecolor{highlight}{RGB}{61, 90, 128} % CHANGE THIS TO YOUR FAV COLOR https://g.co/kgs/aoqdi7
+\definecolor{highlight}{RGB}{61, 90, 128}
 
 % LINKS
 \RequirePackage{hyperref}
-\hypersetup{colorlinks=true,urlcolor=highlight}
+\hypersetup{colorlinks=true,urlcolor=highlight,linkcolor=highlight}
 
 % BULLET POINTS
 \RequirePackage[inline]{enumitem}
 \setlength{\tabcolsep}{0in}
 
-% SECTION FORMATTING 
+% SECTION FORMATTING
 \RequirePackage[nostruts]{titlesec}
-\titlespacing*{\section}{0em}{0.5em}{0em}
-\titleformat{\section}{\color{highlight} \scshape \raggedright \large}{}{0em}{}[\vspace{-1em}\hrulefill]
-% SUBSECTION FORMATTING
-\titlespacing*{\subsection}{0em}{0em}{0em}
-\titleformat{\subsection}{\bfseries}{}{0em}{}[]
+\titlespacing*{\section}{0em}{0.45em}{0.2em}
+\titleformat{\section}{\color{highlight}\bfseries\raggedright\large}{}{0em}{}[\vspace{-0.9em}\hrulefill]
 
-% BOLD COMMAND
-\newcommand{\skills}[1]{ {\bfseries #1}}
-
-% SUBTEXT
-\newcommand{\subtext}[1]{\textit{#1}\par\vspace{-.5em}}
+% ROLE LINE: title, employer, location, dates on one line.
+\newcommand{\role}[4]{\par\vspace{0.15em}\textbf{#1} \textbar\ #2, #3\hfill #4\par}
 
 % tighter spacing than itemize
-\setlist[itemize]{align=parleft,left=0pt..0.5em}
-\newenvironment{zitemize}{
-\begin{itemize} \itemsep 0pt \parskip 0pt \parsep 1pt}
-{\end{itemize}\vspace{-.5em}}
+\setlist[itemize]{align=parleft,left=0pt..0.9em,topsep=0pt}
+\newenvironment{zitemize}{%
+\begin{itemize}\itemsep 0pt \parskip 0pt \parsep 0.5pt}
+{\end{itemize}\vspace{-0.15em}}
 
 % NO PAGE NUMBER
 \pagenumbering{gobble}
-
-% SUBFILES IMPORTING
-\RequirePackage{standalone}
-
-% FOR TEMPLATE FILLER
-\RequirePackage[english]{babel}
-\RequirePackage{blindtext}% Filler Text

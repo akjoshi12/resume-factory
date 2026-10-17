@@ -20,8 +20,15 @@ def _row(app: AppRow) -> rx.Component:
         rx.table.cell(app.role_title),
         rx.table.cell(rx.badge(app.track, variant="soft")),
         rx.table.cell(rx.badge(app.stage, color_scheme="gray")),
-        rx.table.cell(app.outcome),
-        rx.table.cell(app.coverage),
+        rx.table.cell(
+            rx.select(
+                AppState.outcomes,
+                value=app.outcome,
+                on_change=lambda value: AppState.set_outcome(app.id, value),
+                size="1",
+            )
+        ),
+        rx.table.cell(app.ats),
         rx.table.cell(app.model),
         rx.table.cell(app.created),
         rx.table.cell(
@@ -64,9 +71,36 @@ def _delete_dialog() -> rx.Component:
     )
 
 
+def _tile(label: str, value: rx.Var, colour: str) -> rx.Component:
+    return rx.card(
+        rx.vstack(
+            rx.text(label, size="2", color="var(--gray-11)"),
+            rx.heading(value, size="7", color=f"var(--{colour}-11)"),
+            spacing="1",
+        ),
+        flex="1",
+        min_width="10em",
+    )
+
+
+def _stats() -> rx.Component:
+    return rx.hstack(
+        _tile("Applications", AppState.stat_total, "gray"),
+        _tile("Waiting to hear", AppState.stat_waiting, "blue"),
+        _tile("Interviews", AppState.stat_interviews, "green"),
+        _tile("Rejected", AppState.stat_rejected, "red"),
+        width="100%",
+        spacing="3",
+        wrap="wrap",
+    )
+
+
 def page() -> rx.Component:
     return shell(
         _delete_dialog(),
+        _stats(),
+        rx.text("Set each row's outcome when you send it and when you hear back.",
+                size="1", color="var(--gray-10)"),
         rx.cond(
             AppState.applications.length() == 0,
             rx.vstack(
@@ -82,7 +116,7 @@ def page() -> rx.Component:
                             rx.table.column_header_cell(h)
                             for h in (
                                 "Company", "Role", "Track", "Stage",
-                                "Outcome", "Coverage", "Model", "Created", "",
+                                "Outcome", "ATS", "Model", "Created", "",
                             )
                         ]
                     )

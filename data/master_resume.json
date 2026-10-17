@@ -1,6 +1,6 @@
 {
   "schema_version": "2.2",
-  "updated": "2026-09-15",
+  "updated": "2026-10-16",
   "tracks": [
     "ai_eng",
     "data_eng",
@@ -21,54 +21,183 @@
   },
   "skill_group_labels": {
     "languages": "Languages",
-    "data_processing": "Data Processing",
+    "ml": "Machine Learning",
+    "genai": "Generative AI & LLMs",
+    "llm_tooling": "LLM & NLP Tooling",
+    "data_processing": "Data Engineering",
     "databases": "Databases & Cloud",
     "data_quality": "Data Quality & Governance",
-    "bi_reporting": "Reporting & Visualization",
-    "ai_ml": "AI & Machine Learning",
-    "engineering": "Environment & Tooling"
+    "bi_reporting": "Analytics & Reporting",
+    "engineering": "Backend & Frameworks",
+    "devops": "DevOps & Tooling"
+  },
+  "objectives": {
+    "ai_eng": "AI engineer who builds LLM applications end to end: retrieval, LangGraph workflows with human review, and evaluation with documented failure cases. Led an 8-person team that shipped a meeting transcription and summary tool, after building Azure data pipelines in consulting.",
+    "data_eng": "Data engineer who has built batch ETL/ELT pipelines in Azure Data Factory and Databricks for enterprise clients, written PySpark and SQL against Delta Lake tables and star and snowflake schemas, and set up data quality checks and reconciliation before data reaches reports.",
+    "data_analyst": "Data analyst with a background in SQL, data validation, and reporting: reconciliation queries across source systems, Power BI reports for client questions, and dashboards for government and public audiences.",
+    "data_sci": "Data scientist with postgraduate ML training (PyTorch, TensorFlow, MLflow) and a focus on measurement: set transcription and readability metrics against a commercial baseline and checked label reliability with Cohen's kappa.",
+    "research_data": "Research data analyst focused on data quality: merged messy sources (scanned PDFs, CSVs, legacy SQL, Excel) with integrity checks, applied tiered quality rules in production pipelines, and built hand-checked gold sets."
+  },
+  "skill_aliases": {
+    "ETL/ELT Pipelines": [
+      "Data Ingestion",
+      "Batch Processing",
+      "Data Pipelines"
+    ],
+    "Lakehouse (Medallion Architecture)": [
+      "Lakehouse Architecture"
+    ],
+    "Data Quality Rules": [
+      "Data Validation",
+      "Data Quality Checks"
+    ],
+    "Validation & Reconciliation": [
+      "Data Reconciliation"
+    ],
+    "Root-Cause Analysis": [
+      "Troubleshooting"
+    ],
+    "Data Documentation": [
+      "Technical Documentation"
+    ],
+    "Git": [
+      "Version Control"
+    ],
+    "Prometheus": [
+      "Production Monitoring"
+    ],
+    "Data Modelling (Star/Snowflake Schema)": [
+      "Data Modeling",
+      "Dimensional Modeling"
+    ],
+    "Microsoft Azure": [
+      "Azure Cloud"
+    ],
+    "Exploratory Data Analysis": [
+      "EDA"
+    ],
+    "NLP": [
+      "Natural Language Processing"
+    ],
+    "Speech Recognition (ASR)": [
+      "Speech-to-Text"
+    ],
+    "Vector Search & Embeddings": [
+      "Semantic Search"
+    ],
+    "Agentic Workflows": [
+      "AI Agents"
+    ],
+    "LLM Evaluation (LLM-as-Judge)": [
+      "Model Evaluation",
+      "LLM Evals"
+    ],
+    "Power BI": [
+      "Data Visualization",
+      "Business Intelligence"
+    ],
+    "Excel (Pivot Tables)": [
+      "Microsoft Excel"
+    ],
+    "REST APIs": [
+      "API Development"
+    ]
   },
   "skills": {
     "languages": [
       "Python",
       "SQL",
-      "R (coursework only)"
+      "R",
+      "JavaScript",
+      "Bash"
     ],
-    "data_processing": [
-      "PySpark",
+    "ml": [
+      "scikit-learn",
+      "PyTorch",
+      "TensorFlow",
+      "MLflow",
+      "Azure Machine Learning",
+      "NumPy",
       "Pandas",
-      "Databricks",
-      "Azure Data Factory",
-      "Snowflake"
+      "Generative Models (VAE/CGAN)",
+      "Computer Vision",
+      "NLP",
+      "Speech Recognition (ASR)"
     ],
-    "databases": [
-      "MySQL",
-      "Elasticsearch",
-      "relational data modelling"
-    ],
-    "data_quality": [
-      "validation and reconciliation logic",
-      "tiered quality gates (bronze/silver/gold)",
-      "root-cause investigation",
-      "data dictionary and transformation documentation"
-    ],
-    "bi_reporting": [
-      "Power BI (DAX calculated measures, dashboard design)",
-      "tiered audience reporting"
-    ],
-    "ai_ml": [
-      "RAG and retrieval systems",
+    "genai": [
+      "RAG",
       "LangGraph",
-      "prompt engineering",
-      "LLM evaluation (eval harness design, failure analysis, Cohen's kappa, model cards)",
+      "LangChain",
+      "Vector Search & Embeddings",
+      "Prompt Engineering",
+      "Context Engineering",
+      "Agentic Workflows",
+      "Human-in-the-Loop Design",
+      "Model Context Protocol (MCP)",
+      "LLM Evaluation (LLM-as-Judge)",
+      "Structured Outputs"
+    ],
+    "llm_tooling": [
+      "Hugging Face",
       "Whisper",
       "Pyannote",
       "spaCy",
-      "local LLM inference (LM Studio, quantized models on Apple Silicon)"
+      "Mistral API",
+      "Groq",
+      "LM Studio",
+      "Ollama",
+      "Model Quantization (GGUF)",
+      "OpenAI-Compatible APIs",
+      "Flux (Diffusion)"
+    ],
+    "data_processing": [
+      "PySpark",
+      "Apache Spark",
+      "Databricks",
+      "Delta Lake",
+      "Azure Data Factory",
+      "Snowflake",
+      "ETL/ELT Pipelines",
+      "Lakehouse (Medallion Architecture)",
+      "Batch Data Ingestion",
+      "JSON Parsing"
+    ],
+    "databases": [
+      "MySQL",
+      "SQLite",
+      "Elasticsearch",
+      "Microsoft Azure",
+      "Data Modelling (Star/Snowflake Schema)",
+      "Oracle Cloud"
+    ],
+    "data_quality": [
+      "Validation & Reconciliation",
+      "Data Quality Rules",
+      "Root-Cause Analysis",
+      "Data Documentation",
+      "Inter-Annotator Agreement (Cohen's Kappa)"
+    ],
+    "bi_reporting": [
+      "Power BI",
+      "DAX",
+      "Excel (Pivot Tables)",
+      "Exploratory Data Analysis",
+      "Descriptive Statistics",
+      "Dashboard Design",
+      "Stakeholder Reporting"
     ],
     "engineering": [
       "FastAPI",
       "Flask",
+      "REST APIs",
+      "Pydantic",
+      "Reflex",
+      "React",
+      "GitHub",
+      "Linux"
+    ],
+    "devops": [
+      "CI/CD",
       "Git",
       "Jenkins",
       "SonarQube",
@@ -76,7 +205,8 @@
       "pytest",
       "ruff",
       "mypy",
-      "Linux"
+      "uv",
+      "Tailscale"
     ],
     "stale": {
       "note": "Real experience, but not used since 2023. Safe to list; do not imply currency in a summary line.",
@@ -85,7 +215,25 @@
         "Databricks",
         "Azure Data Factory",
         "Snowflake",
-        "Power BI"
+        "Power BI",
+        "DAX",
+        "Apache Spark",
+        "Delta Lake"
+      ]
+    },
+    "stretch": {
+      "note": "Defensible but thin -- prep a 2-minute story for each before any interview where it is on the resume.",
+      "items": [
+        "R",
+        "Bash",
+        "LangChain",
+        "Context Engineering",
+        "Hugging Face",
+        "scikit-learn",
+        "React",
+        "Descriptive Statistics",
+        "Computer Vision",
+        "Oracle Cloud"
       ]
     }
   },
@@ -113,7 +261,25 @@
             "databricks",
             "scale"
           ],
-          "text": "Built and maintained Azure Data Factory and Databricks pipelines for large enterprise clients across coatings, consumer goods, and apparel; the largest engagement moved roughly 200GB across 100+ tables through 5-6 pipelines on a six-hour daily cycle."
+          "text": "Built and maintained batch ETL/ELT pipelines in Azure Data Factory and Databricks for enterprise clients in coatings, consumer goods, and apparel. The largest ran 5-6 pipelines moving about 200GB across 100+ tables on a six-hour cycle.",
+          "variants": [
+            "Built batch data ingestion pipelines in Azure Data Factory and Databricks for enterprise clients, moving about 200GB across 100+ tables every six hours.",
+            "Maintained production ETL/ELT pipelines in Azure Data Factory and Databricks on a six-hour daily cycle; the largest moved about 200GB across 100+ tables."
+          ]
+        },
+        {
+          "id": "tek_pyspark",
+          "priority": 5,
+          "tags": [
+            "pyspark",
+            "delta_lake",
+            "databricks",
+            "python"
+          ],
+          "text": "Wrote PySpark notebooks in Databricks to clean and transform data stored in Delta Lake tables.",
+          "variants": [
+            "Wrote Python and PySpark data transformations in Databricks notebooks, reading and writing Delta Lake tables."
+          ]
         },
         {
           "id": "tek_quality",
@@ -121,9 +287,13 @@
           "tags": [
             "data_quality",
             "governance",
-            "validation"
+            "validation",
+            "medallion"
           ],
-          "text": "Applied business-defined data quality rules to classify pipeline records into bronze, silver, and gold tiers, catching completeness and consistency issues before data reached reporting layers."
+          "text": "Set up data quality checks that sorted records into bronze, silver, and gold tiers (medallion architecture), so bad data was caught before it reached reports.",
+          "variants": [
+            "Built data validation checks that sorted pipeline records into the bronze, silver, and gold layers of a lakehouse (medallion architecture), catching incomplete or inconsistent data before reporting."
+          ]
         },
         {
           "id": "tek_json",
@@ -133,7 +303,10 @@
             "root_cause",
             "performance"
           ],
-          "text": "Investigated a pipeline load that had degraded from a 1-2 minute baseline to roughly an hour; traced the root cause to improperly handled nested JSON structures and worked with the team to restructure the parsing, restoring runtime to baseline."
+          "text": "Fixed a pipeline load that had slowed from 1-2 minutes to about an hour. The cause was badly parsed nested JSON; once we restructured the parsing, runtime was back to normal.",
+          "variants": [
+            "Diagnosed and fixed a performance problem in a production pipeline: load time had grown from 1-2 minutes to about an hour because of how nested JSON was parsed."
+          ]
         },
         {
           "id": "tek_sql",
@@ -143,7 +316,10 @@
             "reconciliation",
             "validation"
           ],
-          "text": "Wrote and optimized complex SQL against enterprise data models, including validation and reconciliation logic checking merged data across multiple source systems."
+          "text": "Wrote and tuned complex SQL, including reconciliation queries that checked merged data against multiple source systems.",
+          "variants": [
+            "Wrote SQL to query, transform, and reconcile data from multiple source systems against enterprise data models."
+          ]
         },
         {
           "id": "tek_powerbi",
@@ -153,7 +329,7 @@
             "dax",
             "stakeholder"
           ],
-          "text": "Translated open-ended client questions into Power BI reporting and DAX measures, including an analysis of which vehicle components beyond wheels were receiving coatings, giving the client visibility into where product volume was concentrated."
+          "text": "Built Power BI reports and DAX measures to answer open-ended client questions, such as which vehicle parts besides wheels took the most coating."
         },
         {
           "id": "tek_migration",
@@ -163,7 +339,7 @@
             "cloud",
             "data_modelling"
           ],
-          "text": "Contributed to an on-premise-to-cloud migration consolidating a client's HR data from multiple source systems into a single cloud data model."
+          "text": "Helped move a client's HR data from several on-premise systems into a single cloud data model."
         },
         {
           "id": "tek_schema",
@@ -172,7 +348,10 @@
             "data_modelling",
             "validation"
           ],
-          "text": "Implemented and validated relational data schemas specified by the team's Data Architect, troubleshooting data integrity issues across pipeline stages."
+          "text": "Implemented and validated star and snowflake schemas designed by the team's data architect, and fixed data integrity issues between pipeline stages.",
+          "variants": [
+            "Implemented data models using star and snowflake schemas designed by the team's data architect, and validated data integrity across pipeline stages."
+          ]
         },
         {
           "id": "tek_docs",
@@ -181,7 +360,10 @@
             "documentation",
             "governance"
           ],
-          "text": "Documented data definitions and transformation logic so pipelines could be maintained, rerun, and extended by other team members."
+          "text": "Documented data definitions and transformation logic so teammates could maintain and rerun the pipelines.",
+          "variants": [
+            "Wrote technical documentation for pipelines, data definitions, and transformation logic so teammates could maintain and rerun them."
+          ]
         }
       ],
       "section": "professional"
@@ -208,7 +390,7 @@
             "government",
             "domain"
           ],
-          "text": "Worked on a national crime and policing intelligence platform for India's Ministry of Home Affairs, unifying data on police organization, insurgency, and crime records into a single queryable model."
+          "text": "Worked on a national crime and policing data platform for a central government ministry, combining police, insurgency, and crime records into one queryable database."
         },
         {
           "id": "tm_sources",
@@ -218,17 +400,24 @@
             "heterogeneous_sources",
             "data_quality"
           ],
-          "text": "Integrated five distinct source types — handwritten records, scanned PDFs, CSVs, legacy SQL records, and government Excel files — across six subject areas, applying integrity checks to maintain consistency across merges."
+          "text": "Merged five kinds of source data (handwritten records, scanned PDFs, CSVs, legacy SQL, and Excel files) across six subject areas, with integrity checks at each merge.",
+          "variants": [
+            "Integrated data from handwritten records, scanned PDFs, CSVs, legacy SQL databases, and Excel files across six subject areas, with integrity checks at each merge."
+          ]
         },
         {
           "id": "tm_dashboards",
           "priority": 4,
           "tags": [
-            "power_bi",
+            "dashboards",
             "reporting",
-            "audience_tiering"
+            "audience_tiering",
+            "excel"
           ],
-          "text": "Built Power BI dashboards delivered in two tiers, a restricted government version and a public-facing version, used to monitor crime, policing capacity, and operational metrics."
+          "text": "Built dashboards in Flask and Excel in two versions: a restricted one for government users and a public one.",
+          "variants": [
+            "Built reporting dashboards in Flask and Excel for government and public audiences."
+          ]
         },
         {
           "id": "tm_stakeholder",
@@ -238,7 +427,10 @@
             "communication",
             "requirements"
           ],
-          "text": "Worked directly with ministry leadership and the project lead on visualization design and accessibility, shaping how reporting surfaced findings for non-technical decision-makers."
+          "text": "Met with ministry leadership and the project lead to decide how the dashboards should present findings to non-technical decision-makers.",
+          "variants": [
+            "Gathered requirements from ministry leadership and the project lead on how dashboards should present findings to non-technical users."
+          ]
         },
         {
           "id": "tm_backend",
@@ -247,7 +439,17 @@
             "backend",
             "full_stack"
           ],
-          "text": "Developed Flask backend APIs and a JavaScript frontend surfacing interactive dashboards and trend analytics over a centralized MySQL database, deployed to cloud infrastructure."
+          "text": "Built Flask APIs and a JavaScript front end for interactive dashboards on a central MySQL database, deployed to the cloud."
+        },
+        {
+          "id": "tm_sql",
+          "priority": 3,
+          "tags": [
+            "sql",
+            "python",
+            "analysis"
+          ],
+          "text": "Wrote SQL and Python to clean, merge, and aggregate records into the reporting tables behind the dashboards."
         }
       ],
       "section": "professional"
@@ -275,7 +477,24 @@
             "automation",
             "nlp"
           ],
-          "text": "Led an 8-person cross-functional team delivering MinuteMinders, a system automating meeting transcription, speaker diarization, summarization, and task extraction to replace manual minute-taking (Whisper, Pyannote, Mistral, spaCy, FastAPI, MySQL, Elasticsearch, React)."
+          "text": "Led an 8-person team that built MinuteMinders, a tool that transcribes meetings, identifies speakers, and writes summaries and action items.",
+          "variants": [
+            "Led an 8-person team that built and shipped MinuteMinders, an AI meeting assistant for transcription, speaker identification, summaries, and action items."
+          ]
+        },
+        {
+          "id": "tbc_stack",
+          "priority": 4,
+          "tags": [
+            "nlp",
+            "speech",
+            "backend",
+            "ml_systems"
+          ],
+          "text": "Built the pipeline with Whisper for transcription, Pyannote for speaker diarization, and Mistral for summaries, served through FastAPI with MySQL, Elasticsearch, and a React front end.",
+          "variants": [
+            "Built an NLP and speech pipeline with Whisper for speech recognition, Pyannote for speaker diarization, and Mistral for summarization, served through FastAPI."
+          ]
         },
         {
           "id": "tbc_eval",
@@ -285,7 +504,10 @@
             "metrics",
             "benchmarking"
           ],
-          "text": "Defined and ran the evaluation approach for the system, measuring transcription accuracy (WER 0.0746, CER 0.2932) and benchmarking generated summary readability against a Microsoft Copilot baseline (Flesch Reading Ease 50.53 vs 63.55) instead of relying on subjective quality review."
+          "text": "Measured transcription accuracy (WER 0.0746, CER 0.2932) and compared summary readability against Microsoft Copilot (Flesch Reading Ease 50.53 vs 63.55).",
+          "variants": [
+            "Evaluated model output with defined metrics: transcription accuracy (WER 0.0746, CER 0.2932) and summary readability against Microsoft Copilot (Flesch Reading Ease 50.53 vs 63.55)."
+          ]
         },
         {
           "id": "tbc_toolsel",
@@ -295,7 +517,7 @@
             "judgment",
             "handover"
           ],
-          "text": "Ran a documented tool-selection process at each pipeline stage, recording rationale and known limitations for every decision, and authored setup and usage documentation enabling the client organization to operate the system independently."
+          "text": "Documented why each tool was chosen and its known limits, and wrote the setup guide the client used to run the system on their own."
         },
         {
           "id": "tbc_cicd",
@@ -305,15 +527,18 @@
             "ci_cd",
             "code_quality"
           ],
-          "text": "Built a Jenkins CI pipeline with GitHub webhook triggers and SonarQube quality gates across a ~15,400-line codebase, with Prometheus monitoring on the deployed service."
+          "text": "Set up Jenkins CI with GitHub webhooks and SonarQube quality gates for the ~15,400-line codebase, plus Prometheus monitoring on the live service.",
+          "variants": [
+            "Set up CI with Jenkins, GitHub webhooks, and SonarQube code-quality gates, plus production monitoring with Prometheus, for a ~15,400-line codebase."
+          ]
         }
       ],
       "section": "professional"
     },
     {
       "id": "paragon",
-      "org": "Paragon Protection Limited",
-      "title": "Shift Supervisor",
+      "org": "Elite Residential / Paragon Protection",
+      "title": "Building Services, Concierge → Shift Supervisor",
       "location": "Toronto, ON",
       "start": "2025-06",
       "end": null,
@@ -333,7 +558,7 @@
             "operations",
             "leadership"
           ],
-          "text": "Supervise building services operations, coordinating shift staffing and incident documentation alongside continued technical project work."
+          "text": "Supervise building services shifts, including staffing, incident reports, and day-to-day operations."
         }
       ]
     }
@@ -423,7 +648,7 @@
             "nlp",
             "corpus"
           ],
-          "text": "Engineered a validated 50-70k-turn training corpus, harmonizing four heterogeneous public datasets into a unified JSONL schema with shared parser utilities and a single strategy label taxonomy."
+          "text": "Built a 50-70k-turn training corpus by merging four public emotional-support datasets into one JSONL schema with a shared label set."
         },
         {
           "id": "aura_quality",
@@ -434,7 +659,7 @@
             "statistics",
             "evaluation"
           ],
-          "text": "Designed tiered data quality gates with a 300-example manually validated gold set and measured annotation reliability using Cohen's kappa inter-annotator agreement between two independent LLM labelers."
+          "text": "Set up tiered quality checks with a 300-example hand-checked gold set, and measured labeling reliability with Cohen's kappa between two LLM labelers."
         },
         {
           "id": "aura_eval",
@@ -444,7 +669,10 @@
             "failure_analysis",
             "responsible_ai"
           ],
-          "text": "Building a reproducible evaluation harness with adversarial, clean, and messy test buckets, documenting failure modes and known limitations in a model card rather than reporting headline scores alone."
+          "text": "Building an evaluation harness with adversarial, clean, and messy test sets, plus a model card that records failure modes, not just headline scores.",
+          "variants": [
+            "Building an LLM evaluation harness with adversarial, clean, and messy test sets, plus a model card documenting failure modes."
+          ]
         },
         {
           "id": "aura_tradeoffs",
@@ -453,19 +681,63 @@
             "judgment",
             "ml_engineering"
           ],
-          "text": "Documented architecture tradeoffs including selecting a quantized large model over a fine-tuned smaller one to preserve multi-turn context, and abandoning fine-tuning after measured quality degradation."
+          "text": "Chose a quantized large model over a fine-tuned small one to keep multi-turn context, and dropped fine-tuning after it measurably hurt quality."
+        }
+      ]
+    },
+    {
+      "id": "ml_coursework",
+      "name": "Applied ML & Generative Models",
+      "subtitle": "Postgraduate coursework, Loyalist College",
+      "status": "complete",
+      "stack": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "MLflow",
+        "Azure Machine Learning"
+      ],
+      "tracks": [
+        "ai_eng",
+        "data_sci",
+        "research_data"
+      ],
+      "bullets": [
+        {
+          "id": "mlc_gen",
+          "priority": 4,
+          "tags": [
+            "computer_vision",
+            "generative",
+            "deep_learning"
+          ],
+          "text": "Built a VAE and a conditional GAN for image generation, starting in PyTorch and moving both to TensorFlow because of GPU support issues on Apple Silicon."
+        },
+        {
+          "id": "mlc_deploy",
+          "priority": 4,
+          "tags": [
+            "mlops",
+            "deployment",
+            "azure"
+          ],
+          "text": "Trained a decision tree model and deployed it to Azure, using MLflow to track experiments."
         }
       ]
     },
     {
       "id": "resume_factory",
       "name": "Resume Factory",
-      "subtitle": "Local-first resume and cover letter automation",
+      "subtitle": "Agentic resume and cover letter generation with human review gates",
       "status": "in_progress",
       "stack": [
         "Python",
         "LangGraph",
-        "local LLM inference"
+        "Reflex",
+        "SQLite",
+        "Pydantic",
+        "LM Studio",
+        "LaTeX"
       ],
       "tracks": [
         "ai_eng"
@@ -473,12 +745,46 @@
       "bullets": [
         {
           "id": "rf_1",
-          "priority": 4,
+          "priority": 5,
           "tags": [
             "agentic",
-            "llm_systems"
+            "llm_systems",
+            "langgraph",
+            "human_in_the_loop"
           ],
-          "text": "Building a local-first document automation tool that composes tailored resumes from a structured content store, with provenance constraints on every factual claim and a human review step before output."
+          "text": "Built a LangGraph pipeline that tailors resumes and cover letters and pauses at two human review steps; a SQLite checkpointer lets runs pick up after a restart.",
+          "variants": [
+            "Built an agentic AI workflow in LangGraph with human-in-the-loop review steps and SQLite checkpointing, used to tailor resumes and cover letters."
+          ]
+        },
+        {
+          "id": "rf_2",
+          "priority": 5,
+          "tags": [
+            "evaluation",
+            "guardrails",
+            "hallucination"
+          ],
+          "text": "Added a fact-check on every model rewrite that blocks numbers, names, or posting terms the original bullet never had."
+        },
+        {
+          "id": "rf_3",
+          "priority": 4,
+          "tags": [
+            "scoring",
+            "nlp",
+            "pdf_parsing"
+          ],
+          "text": "Scores each resume against the posting and re-reads the compiled PDF with two text extractors to confirm it parses cleanly."
+        },
+        {
+          "id": "rf_4",
+          "priority": 3,
+          "tags": [
+            "local_inference",
+            "structured_outputs"
+          ],
+          "text": "Runs on a local model through an OpenAI-compatible API, with a compile-and-trim loop that keeps the resume to one page."
         }
       ]
     },
@@ -506,7 +812,7 @@
             "local_inference",
             "evaluation"
           ],
-          "text": "Built a three-phase benchmark harness measuring local LLM throughput and hardware saturation on Apple Silicon, instrumenting token-level timing and thermal telemetry alongside EvalPlus code-solving accuracy."
+          "text": "Built a benchmark harness that measures local LLM speed and hardware load on Apple Silicon, logging token timing and thermals alongside EvalPlus coding accuracy."
         },
         {
           "id": "redline_2",
@@ -515,7 +821,7 @@
             "debugging",
             "measurement_integrity"
           ],
-          "text": "Caught and corrected instrumentation defects including a timer corrupted by reasoning-phase token emission and a silent validation fallback masking a 53x measurement discrepancy."
+          "text": "Found and fixed measurement bugs, including a timer thrown off by reasoning tokens and a silent fallback hiding a 53x discrepancy."
         }
       ]
     },
@@ -528,7 +834,8 @@
         "Python",
         "Reflex",
         "Qwen3 32B",
-        "Flux.1 Kontext"
+        "Flux.1 Kontext",
+        "mflux"
       ],
       "tracks": [
         "ai_eng"
@@ -542,7 +849,7 @@
             "local_inference",
             "state_management"
           ],
-          "text": "Built a fully local generation pipeline pairing a 32B language model with identity-preserving image generation, using a versioned character registry to maintain visual continuity across chapters."
+          "text": "Built a fully local app that writes illustrated stories with a 32B language model and Flux image generation, using a versioned character registry to keep characters consistent across chapters."
         }
       ]
     }

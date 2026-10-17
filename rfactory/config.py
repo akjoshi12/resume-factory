@@ -33,9 +33,11 @@ class Settings(BaseSettings):
     request_timeout: float = 180.0
     # Caps are a safety net, not a target. They must leave room for a reasoning phase
     # on the fallback path, where thinking tokens come out of the same budget.
-    max_tokens_ingest: int = 1500
-    max_tokens_tailor: int = 4000
-    max_tokens_cover: int = 2000
+    max_tokens_ingest: int = 4000
+    max_tokens_tailor: int = 9000
+    # 2000 truncated two of three letters on a model that answers through its
+    # reasoning channel: the JSON never closed and the run died at the cover step.
+    max_tokens_cover: int = 8000
 
     lmstudio_base_url: str = "http://127.0.0.1:1234/v1"
     lmstudio_model: str = "qwen3-27b"
@@ -53,7 +55,9 @@ class Settings(BaseSettings):
 
     latex_engine: str = "pdflatex"
     max_pages: int = 1
-    max_fit_retries: int = 3
+    # One trim per compile. Projects, skill groups and certifications go before any work
+    # bullet, so a dense posting can need well over the old cap of 8 to reach one page.
+    max_fit_retries: int = 20
     max_verify_retries: int = 3
 
 

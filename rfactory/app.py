@@ -27,7 +27,7 @@ async def serve_pdf(request: Request) -> Response:
 # Reflex 0.9 mounts an extra Starlette app rather than exposing a FastAPI instance.
 api = Starlette(routes=[Route("/api/pdf/{app_id}/{kind}", serve_pdf, methods=["GET"])])
 
-app = rx.App(api_transformer=api)
+app = rx.App(api_transformer=api, stylesheets=["/minimal.css"])
 
 app.add_page(dashboard.page, route="/", title="Resume Factory", on_load=AppState.load_dashboard)
 app.add_page(

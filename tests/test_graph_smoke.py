@@ -57,7 +57,7 @@ class StubProvider:
                 "role_title": "Data Quality Analyst",
                 "requirements": ["SQL", "Power BI", "data validation", "stakeholder reporting"],
             }
-        elif "CANDIDATE BULLET POOL" in user:
+        elif "CANDIDATE BULLETS, GROUPED BY ROLE" in user:
             self.calls.append("tailor")
             roles = [
                 *master.experience_for(TRACK, "professional"),

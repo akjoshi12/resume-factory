@@ -38,6 +38,9 @@ class Bullet(BaseModel):
     priority: int = Field(ge=1, le=5)
     tags: list[str] = Field(default_factory=list)
     text: str
+    # Hand-written alternate phrasings of the same fact, each aimed at a different kind
+    # of posting. Approved like `text`, so the app may swap one in without checking it.
+    variants: list[str] = Field(default_factory=list)
 
 
 class Experience(BaseModel):
@@ -53,7 +56,7 @@ class Experience(BaseModel):
 
     @property
     def date_range(self) -> str:
-        return f"{fmt_month(self.start)} --- {fmt_month(self.end)}"
+        return f"{fmt_month(self.start)} -- {fmt_month(self.end)}"
 
 
 class Project(BaseModel):
@@ -119,6 +122,11 @@ class MasterResume(BaseModel):
     tracks: list[str] = Field(default_factory=list)
     profile: Profile
     skill_group_labels: dict[str, str] = Field(default_factory=dict)
+    # Hand-written per-track summaries, used when the model's objective fails checks.
+    objectives: dict[str, str] = Field(default_factory=dict)
+    # skill entry -> other names for the same skill ("ETL/ELT Pipelines" -> "Data
+    # Ingestion"). Printed beside the entry only when the posting uses that name.
+    skill_aliases: dict[str, list[str]] = Field(default_factory=dict)
     skills: Skills
     experience: list[Experience] = Field(default_factory=list)
     education: list[Education] = Field(default_factory=list)
@@ -133,8 +141,21 @@ class MasterResume(BaseModel):
     # -- track-filtered views -------------------------------------------------
 
     def experience_for(self, track: str, section: str = "professional") -> list[Experience]:
-        hits = [e for e in self.experience if track in e.tracks and e.section == section]
+        """EVERY role in the section, whatever the track. Dropping a role leaves an
+        unexplained gap in the timeline, which costs more than an off-target role does.
+        Tracks only influence which bullets are chosen and in what order, never whether
+        a role appears. `track` is kept in the signature for callers."""
+        hits = [e for e in self.experience if e.section == section]
         return sorted(hits, key=lambda e: e.end or "9999-99", reverse=True)
+
+    def role_bullets(self, track: str) -> dict[str, dict[str, Bullet]]:
+        """role id -> {bullet id -> bullet}. A bullet may only ever be printed under
+        the role it belongs to; this is the map that enforces it."""
+        return {
+            e.id: {b.id: b for b in e.bullets}
+            for section in ("professional", "additional")
+            for e in self.experience_for(track, section)
+        }
 
     def projects_for(self, track: str) -> list[Project]:
         return [p for p in self.projects if track in p.tracks]
@@ -159,5 +180,22 @@ class MasterResume(BaseModel):
             pool.update({b.id: b for b in p.bullets})
         return pool
 
+    def claimable_text(self) -> str:
+        """Everything the candidate can stand behind, as one string: the universe a
+        tool name must appear in before any generated text may mention it."""
+        parts = [
+            t for e in self.experience for b in e.bullets for t in (b.text, *b.variants)
+        ]
+        parts += [a for names in self.skill_aliases.values() for a in names]
+        parts += [f"{p.name} {p.subtitle} {' '.join(p.stack)}" for p in self.projects]
+        parts += [t for p in self.projects for b in p.bullets for t in (b.text, *b.variants)]
+        parts += [s for entries in self.skills.groups().values() for s in entries]
+        parts += [f"{c.name} {c.issuer}" for c in self.certifications]
+        parts += [f"{e.credential} {e.institution}" for e in self.education]
+        from rfactory.scoring.claims import with_aliases
+
+        return with_aliases("\n".join(parts))
+
     def skill_pool(self) -> set[str]:
-        return {s for group in self.skills.groups().values() for s in group}
+        pool = {s for group in self.skills.groups().values() for s in group}
+        return pool | {a for s in pool for a in self.skill_aliases.get(s, [])}

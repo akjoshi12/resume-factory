@@ -12,10 +12,11 @@ def shell(*children: rx.Component, title: str = "Resume Factory") -> rx.Componen
             rx.spacer(),
             rx.link("Dashboard", href="/"),
             rx.link("New application", href="/new"),
+            rx.color_mode.button(size="1", variant="ghost"),
             width="100%",
             align="center",
             padding_y="0.75em",
-            border_bottom="1px solid var(--gray-5)",
+            class_name="topbar",
         ),
         rx.cond(
             AppState.error != "",

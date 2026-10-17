@@ -1,0 +1,77 @@
+/* Minimalist skin over Radix Themes: flat, hairline borders, no shadows or gradients,
+   type and whitespace do the work. Uses Radix tokens so dark mode follows automatically. */
+
+/* Palette. Light: soft gray, never pure white. Dark: navy, never pure black.
+   Doubled selectors outrank Radix's own token definitions. */
+html.light, .light .radix-themes.radix-themes, html:not(.dark) .radix-themes.radix-themes {
+  --color-background: #e4e6ea;
+  --color-panel-solid: #f1f2f4;
+  --color-panel-translucent: rgba(241, 242, 244, 0.8);
+  --color-surface: #ffffff;
+}
+html.dark, .dark .radix-themes.radix-themes {
+  --color-background: #0f1b2d;
+  --color-panel-solid: #16243a;
+  --color-panel-translucent: rgba(22, 36, 58, 0.8);
+  --color-surface: #1a2a42;
+  --gray-12: #dbe4f0; /* off-white text: pure white on navy glares */
+}
+
+body {
+  background: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.005em;
+}
+
+/* Flat panels separated by a hairline, not elevation */
+.rt-Card {
+  background-color: var(--color-panel-solid);
+  box-shadow: none !important;
+  border: 1px solid var(--gray-a5);
+  border-radius: 6px;
+  padding: 1.25rem;
+}
+.rt-Card::after { box-shadow: none !important; }
+
+/* Top bar: just a thin rule and air */
+.topbar {
+  border-bottom: 1px solid var(--gray-a5);
+  padding-top: 1.25em !important;
+  padding-bottom: 1.25em !important;
+  margin-bottom: 0.5em;
+}
+.topbar .rt-Heading { font-weight: 500; letter-spacing: -0.02em; }
+.topbar a {
+  color: var(--gray-11);
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+.topbar a:hover { color: var(--gray-12); }
+
+/* Buttons: square-ish, flat, no glow */
+.rt-BaseButton {
+  box-shadow: none !important;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.rt-BaseButton.rt-variant-soft { background-color: transparent; box-shadow: inset 0 0 0 1px var(--gray-a7) !important; color: var(--gray-12); }
+.rt-BaseButton.rt-variant-soft:hover:not([disabled]) { background-color: var(--gray-a3); }
+
+/* Fields: single hairline, darkens on focus */
+.rt-TextFieldRoot,
+.rt-TextAreaRoot,
+.rt-SelectTrigger {
+  box-shadow: inset 0 0 0 1px var(--gray-a6) !important;
+  border-radius: 4px;
+  background-color: transparent;
+}
+.rt-TextFieldRoot:focus-within,
+.rt-TextAreaRoot:focus-within,
+.rt-SelectTrigger:focus-visible { box-shadow: inset 0 0 0 1px var(--gray-12) !important; }
+
+/* Badges: quiet outlined labels */
+.rt-Badge {
+  border-radius: 3px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}

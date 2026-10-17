@@ -53,7 +53,6 @@ def check_latex() -> None:
         return
     for package, needed_by in (
         ("sourcesanspro", "resume"),
-        ("fontawesome5", "cover letter"),
         ("charter", "cover letter"),
     ):
         found = subprocess.run(

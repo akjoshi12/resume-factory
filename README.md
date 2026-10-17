@@ -17,15 +17,26 @@ https://github.com/user-attachments/assets/6d7bb3dc-ee9c-49b1-9f2c-01ffbf5eba4b
 The model may **select and rephrase** bullets from `data/master_resume.json`. It may not
 add facts. Every rephrased bullet is checked against its source: any number or named
 entity present in the rewrite but absent from the source (and absent from the declared
-skill pool) is a violation. Violations force a retry; if retries run out the draft still
-reaches you, with the violations shown, rather than being silently accepted.
+skill pool) is a violation, and so is naming a posting tool that appears nowhere in the
+master resume (`dbt` for someone who has never used it) or dropping a tool or number the
+source had. The objective and the cover letter get the same checks. Violations force a
+retry; if retries run out, the offending text falls back to the approved source and the
+violations are shown.
 
-There is no "ATS score" here, because no applicant tracking system emits one. Instead:
+No applicant tracking system emits a score, so the numbers here are proxies with their
+working shown:
 
-- **JD keyword coverage** - which terms the posting asks for actually appear.
+- **Quick scan** - paste a posting before generating anything and get a match %, an
+  Apply / Stretch / Skip verdict, strengths, gaps and the tools you lack.
+- **ATS match** - after generation: 45% posting tools found on the resume, 35%
+  requirement keywords (stemmed, filler words excluded), 10% job title, 10% clean
+  parse. Tools you have never used cap it, and the review page lists them.
 - **Parse-back** - text is extracted from the generated PDF with two different
   extractors and checked for name, employers, dates and schools. `spacing risk` warns
-  when a lenient parser merges words, which the Source Sans Pro template is prone to.
+  when a lenient parser merges words.
+
+The dashboard tallies applications, waiting, interviews and rejections from the
+outcome you set on each row.
 
 ## Setup
 
@@ -33,8 +44,8 @@ There is no "ATS score" here, because no applicant tracking system emits one. In
     cp .env.example .env      # point RF_LMSTUDIO_* at your local server
     uv run reflex run
 
-Requires a LaTeX install with `pdflatex` (MacTeX), plus the `fontawesome5` and
-`sourcesanspro` packages. `pdftotext` (poppler) improves the parse-back check but is
+Requires a LaTeX install with `pdflatex` (MacTeX), plus the
+`sourcesanspro` package. `pdftotext` (poppler) improves the parse-back check but is
 optional.
 
 Diagnose a model that returns empty or malformed responses -- dumps the raw HTTP

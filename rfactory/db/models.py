@@ -60,6 +60,7 @@ class Application(SQLModel, table=True):
     cover_pdf: str | None = None
 
     coverage: float | None = None
+    ats_score: int | None = None
     pages: int | None = None
     spacing_risk: bool = False
     notes: str = ""

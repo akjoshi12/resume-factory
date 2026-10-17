@@ -1,0 +1,73 @@
+/* Skeuomorphic skin over Radix Themes. Gradients are layered on top of Radix's own
+   background colours, so every color_scheme (red, amber, ...) and dark mode still work. */
+
+body {
+  background:
+    radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.05) 1px, transparent 0) 0 0 / 6px 6px,
+    linear-gradient(180deg, var(--gray-2), var(--gray-4));
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Raised panels: bevelled edge + soft drop shadow */
+.rt-Card {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 40%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.12),
+    0 6px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--gray-6);
+}
+
+/* Physical buttons: glossy top, pressed-in on click */
+.rt-BaseButton:not(.rt-variant-ghost) {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.08));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 1px 0 rgba(0, 0, 0, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: box-shadow 80ms, transform 80ms;
+}
+.rt-BaseButton.rt-variant-solid { text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25); }
+.rt-BaseButton:not(.rt-variant-ghost):active:not([disabled]) {
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.05));
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
+  transform: translateY(1px);
+}
+
+/* Recessed fields: carved into the surface */
+.rt-TextFieldRoot,
+.rt-TextAreaRoot,
+.rt-SelectTrigger {
+  background-color: var(--color-surface);
+  box-shadow:
+    inset 0 2px 3px rgba(0, 0, 0, 0.12),
+    inset 0 0 0 1px var(--gray-7),
+    0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* Badges as little embossed pills */
+.rt-Badge {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0.05));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+/* Top bar: brushed-metal strip */
+.topbar {
+  background: linear-gradient(180deg, var(--gray-1), var(--gray-4));
+  border: 1px solid var(--gray-7) !important;
+  border-radius: 10px;
+  padding-left: 1em;
+  padding-right: 1em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+.topbar h1, .topbar .rt-Heading { text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9); }
+
+/* Dark mode: white highlights read as glare, tone them down */
+.dark .rt-Card,
+.dark .topbar { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 6px 16px rgba(0, 0, 0, 0.5); }
+.dark .rt-Card { background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 40%); }
+.dark .topbar h1, .dark .topbar .rt-Heading { text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6); }
