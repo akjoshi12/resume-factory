@@ -33,6 +33,7 @@ class Outcome(StrEnum):
     OFFER = "offer"
     REJECTED = "rejected"
     GHOSTED = "ghosted"
+    WITHDRAWN = "withdrawn"
 
 
 class Application(SQLModel, table=True):
@@ -64,6 +65,27 @@ class Application(SQLModel, table=True):
     pages: int | None = None
     spacing_risk: bool = False
     notes: str = ""
+
+    # Set once, when the resume is approved: the moment it counts as sent.
+    applied_at: datetime | None = None
+    referral: bool = False
+
+    # Notion mirror (rfactory/sync/notion_sync.py). Bookkeeping, plus the fields Notion owns.
+    notion_page_id: str | None = None
+    notion_synced_at: datetime | None = None
+    next_action: str = ""
+    next_action_date: str | None = None
+
+
+class NotionOutbox(SQLModel, table=True):
+    """A Notion push that failed and is waiting to be retried. One row per application."""
+
+    id: int | None = Field(default=None, primary_key=True)
+    application_id: str = Field(foreign_key="application.id", index=True)
+    attempts: int = 0
+    next_try_at: datetime = Field(default_factory=_now)
+    last_error: str | None = None
+    created_at: datetime = Field(default_factory=_now)
 
 
 class DraftVersion(SQLModel, table=True):

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -59,6 +60,13 @@ class Settings(BaseSettings):
     # bullet, so a dense posting can need well over the old cap of 8 to reach one page.
     max_fit_retries: int = 20
     max_verify_retries: int = 3
+
+    # Notion mirror. Optional: with either unset the sync is a no-op. Read as plain
+    # NOTION_* names so the same .env line works for the launchd job.
+    notion_token: str = Field("", validation_alias=AliasChoices("NOTION_TOKEN", "RF_NOTION_TOKEN"))
+    notion_db_id: str = Field(
+        "", validation_alias=AliasChoices("NOTION_DB_ID", "RF_NOTION_DB_ID")
+    )
 
 
 settings = Settings()

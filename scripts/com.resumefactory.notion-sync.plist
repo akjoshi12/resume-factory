@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Template for the Notion sync job. Not installed by anything in this repo.
+  To install (after setting NOTION_TOKEN and NOTION_DB_ID in .env):
+
+    cp scripts/com.resumefactory.notion-sync.plist ~/Library/LaunchAgents/
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.resumefactory.notion-sync.plist
+
+  Remove with: launchctl bootout gui/$(id -u)/com.resumefactory.notion-sync
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.resumefactory.notion-sync</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/atrijoshi/Documents/resume-factory-v2/.venv/bin/python</string>
+        <string>-m</string>
+        <string>rfactory.sync.notion_sync</string>
+        <string>sync</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/atrijoshi/Documents/resume-factory-v2</string>
+
+    <key>StartInterval</key>
+    <integer>600</integer>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/atrijoshi/Library/Logs/resumefactory-notion-sync.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/atrijoshi/Library/Logs/resumefactory-notion-sync.log</string>
+</dict>
+</plist>

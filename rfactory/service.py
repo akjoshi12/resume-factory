@@ -20,6 +20,7 @@ from rfactory.config import settings
 from rfactory.db.models import Application, DraftVersion, Stage
 from rfactory.db.session import get_session, init_db
 from rfactory.graph.build import compile_graph
+from rfactory.sync import notion_sync
 
 logger = logging.getLogger(__name__)
 
@@ -179,6 +180,10 @@ def resume(application_id: str, decision: dict[str, Any]) -> dict[str, Any] | No
     _sync_from_state(application_id, result)
     if result.get("stage") == "complete":
         update_application(application_id, stage=Stage.COMPLETE)
+    if decision.get("action") == "approve" and record.applied_at is None:
+        # The first approval is the resume gate, so this is the moment it was sent.
+        update_application(application_id, applied_at=datetime.now(timezone.utc))
+        notion_sync.push_after_approval(application_id)
     return gate_payload(result)
 
 
