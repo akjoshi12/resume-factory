@@ -38,6 +38,12 @@ working shown:
 The dashboard tallies applications, waiting, interviews and rejections from the
 outcome you set on each row.
 
+## UI skins
+
+`assets/` holds three CSS skins over Radix Themes: `minimal.css` (the default),
+`glass.css` and `skeuo.css`. Switch by changing the `stylesheets` entry in
+`rfactory/app.py`; the accent and gray colours are set in `rxconfig.py`.
+
 ## Setup
 
     uv sync
@@ -109,7 +115,9 @@ applying. Local inference does not have that property.
     data/master_resume.json   single source of truth; track tags decide what appears
     templates/                resume.tex.j2 + TLCresume.sty, cover/ for the letter
     rfactory/graph/           nodes and the compiled state machine
-    rfactory/scoring/         claim verification, JD coverage, parse-back
+    rfactory/scan.py          quick scan: fit verdict before generating anything
+    rfactory/scoring/         claim verification, JD coverage, ATS estimate, parse-back
     rfactory/render/          Jinja to LaTeX, pdflatex, one-page trim loop
+    assets/                   CSS skins (minimal, glass, skeuo)
     serve.sh                  start on the tailnet, awake, with the right host baked in
     .rfdata/                  generated PDFs and the SQLite database (gitignored)
